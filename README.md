@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-# website
-=======
+
 # Astro Starter Kit: Minimal
 
 ```sh
