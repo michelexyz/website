@@ -1,5 +1,25 @@
 ---
+import '../styles/global.css';
 
+const pageTitle = "About Me";
+
+const identity = {
+	firstName: "Michele",
+  lastName: "Vannucci",
+  city: "Amsterdam",
+  occupation: "Student",
+  hobbies: ["Making music", "Reading", "Going to the cinema"],
+};
+const programmingLanguages = [
+  "JavaScript",
+  "Python",
+  "C++",
+  "Java",
+  "Rust",
+];
+
+const programmingColor = "blue";
+const happy = true;
 ---
 
 <html lang="en">
@@ -8,13 +28,43 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>{pageTitle}</title>
 	</head>
+	<style define:vars={{
+		programmingColor,
+	  }}>
+      h1 {
+        color: purple;
+        font-size: 4rem;
+      }
+	  .programming-languages {
+		color: var(--programmingColor);
+		font-weight: bold;
+	  }
+    </style>
 	<body>
         <a href="/">Home</a>
         <a href="/about/">About</a>
 		<a href="/blog/">Blog</a>
 
-		<h1>About</h1>
+		<h1>{pageTitle}</h1>
+		<p>Here are a few facts about me:</p>
+		<ul>
+			<li>My name is {identity.firstName}.</li>
+			<li>I live in {identity.city} and I work as a {identity.occupation}.</li>
+			{identity.hobbies.length >= 2 && (
+				<li>
+					Two of my hobbies are: {identity.hobbies[0]} and {identity.hobbies[1]}
+				</li>
+			)}
+	</ul>
+	<p>I know the following programming languages:</p>
+	<ul>
+		{programmingLanguages.map((language) => (
+			<li class="programming-languages">{language}</li>
+		))}
+	</ul>
+	{happy && <p>Today I feel happy!</p>}
 	</body>
+	
 </html>
