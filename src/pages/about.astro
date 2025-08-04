@@ -1,5 +1,7 @@
 ---
-import '../styles/global.css';
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+
 
 const pageTitle = "About Me";
 
@@ -22,40 +24,17 @@ const programmingColor = "blue";
 const happy = true;
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{pageTitle}</title>
-	</head>
-	<style define:vars={{
-		programmingColor,
-	  }}>
-      h1 {
-        color: purple;
-        font-size: 4rem;
-      }
-	  .programming-languages {
-		color: var(--programmingColor);
-		font-weight: bold;
-	  }
-    </style>
-	<body>
-        <a href="/">Home</a>
-        <a href="/about/">About</a>
-		<a href="/blog/">Blog</a>
 
-		<h1>{pageTitle}</h1>
-		<p>Here are a few facts about me:</p>
-		<ul>
-			<li>My name is {identity.firstName}.</li>
-			<li>I live in {identity.city} and I work as a {identity.occupation}.</li>
-			{identity.hobbies.length >= 2 && (
-				<li>
-					Two of my hobbies are: {identity.hobbies[0]} and {identity.hobbies[1]}
-				</li>
+<BaseLayout pageTitle={pageTitle}>
+
+	<p>Here are a few facts about me:</p>
+	<ul>
+		<li>My name is {identity.firstName}.</li>
+		<li>I live in {identity.city} and I work as a {identity.occupation}.</li>
+		{identity.hobbies.length >= 2 && (
+			<li>
+				Two of my hobbies are: {identity.hobbies[0]} and {identity.hobbies[1]}
+			</li>
 			)}
 	</ul>
 	<p>I know the following programming languages:</p>
@@ -65,6 +44,14 @@ const happy = true;
 		))}
 	</ul>
 	{happy && <p>Today I feel happy!</p>}
-	</body>
-	
+	<style define:vars={{
+		programmingColor,
+	  }}>
+	  .programming-languages {
+		color: var(--programmingColor);
+		font-weight: bold;
+	  }
+    </style>
+</BaseLayout>
+
 </html>

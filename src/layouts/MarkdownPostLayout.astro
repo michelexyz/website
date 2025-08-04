@@ -1,0 +1,36 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Tag from '../components/Tag.astro';
+const { frontmatter } = Astro.props;
+
+
+---
+<style>
+  .tags-container {
+    margin: 1rem 0;
+  }
+  
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+</style>
+
+<BaseLayout pageTitle={frontmatter.title}>
+  <p>Written by {frontmatter.author}</p>
+  <p>Published on: {frontmatter.pubDate}</p>
+
+  {frontmatter.tags && frontmatter.tags.length > 0 && (
+    <div class="tags-container">
+      <p><strong>Tags:</strong></p>
+      <div class="tags">
+        {frontmatter.tags.map((tag: string) => (
+          <Tag tag={tag} />
+        ))}
+      </div>
+    </div>
+  )}
+
+  <slot />
+</BaseLayout>
