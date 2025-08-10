@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.0",
+    "@astrojs/preact": "^4.1.0",
     "@astrojs/rss": "^4.0.12",
-    "astro": "^5.12.5"
+    "astro": "^5.12.5",
+    "preact": "^10.27.0"
   }
 }
