@@ -26,32 +26,29 @@ const happy = true;
 
 
 <BaseLayout pageTitle={pageTitle}>
+    <p>I'm currently studying AI at the Vrije Universiteit for my Master's.</p>
+    <p>I live in Amsterdam, but I grew up in Milan.</p>
+    <p><em>Recently</em> I have been working on my <a href="/projects/master-thesis">Master Thesis</a>.</p>
 
-	<p>Here are a few facts about me:</p>
-	<ul>
-		<li>My name is {identity.firstName}.</li>
-		<li>I live in {identity.city} and I work as a {identity.occupation}.</li>
-		{identity.hobbies.length >= 2 && (
-			<li>
-				Two of my hobbies are: {identity.hobbies[0]} and {identity.hobbies[1]}
-			</li>
-			)}
-	</ul>
-	<p>I know the following programming languages:</p>
-	<ul>
-		{programmingLanguages.map((language) => (
-			<li class="programming-languages">{language}</li>
-		))}
-	</ul>
-	{happy && <p>Today I feel happy!</p>}
-	<style define:vars={{
-		programmingColor,
-	  }}>
-	  .programming-languages {
-		color: var(--programmingColor);
-		font-weight: bold;
-	  }
+    <a href="/CV.pdf" class="download-btn" download="CV.pdf">
+        Download My CV
+    </a>
+
+    <style>
+        .download-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background-color: #3b82f6;
+            color: white;
+            text-decoration: none;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background-color: #2563eb;
+        }
     </style>
 </BaseLayout>
-
-</html>
