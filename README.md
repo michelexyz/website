@@ -42,4 +42,32 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
->>>>>>> master
+
+## 📁 Projects structure (custom)
+
+This project uses Astro Content Collections to manage projects under `src/content/projects`.
+
+- Each top‑level project lives in its own folder with an `index.md`:
+
+	```text
+	src/content/projects/
+	├── master-thesis/
+	│   ├── index.md          # Project main page (title + content)
+	│   ├── chapter-1.md      # Section (appears under the project page)
+	│   └── appendix.md       # Section (appears under the project page)
+	└── another-project/
+			└── index.md
+	```
+
+- Project pages are generated automatically:
+	- `/projects` lists only top‑level projects (folders with `index.md`).
+	- `/projects/[project]` shows the project page from its `index.md` and lists its sections.
+	- `/projects/[project]/[section]` renders each section file.
+
+- Relevant files:
+	- `src/pages/projects/index.astro` — lists top‑level projects only.
+	- `src/pages/projects/[project].astro` — dynamic route for a single project page.
+	- `src/pages/projects/[...slug].astro` — renders individual section pages.
+	- `src/components/ProjectPage.astro` — component that renders a project page (lead from `index.md` + sections list).
+
+Tip: add `pubDate` and `tags` to your Markdown frontmatter to enable sorting and filtering.

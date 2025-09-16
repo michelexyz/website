@@ -1,0 +1,20 @@
+---
+import Tag from './Tag.astro';
+const { tags, size = 'md' } = Astro.props as { tags?: string[]; size?: 'sm' | 'md' | 'lg' };
+---
+{tags && tags.length > 0 && (
+  <div class="tags-container">
+    <p><strong>Tags:</strong></p>
+    <div class="tags">
+      {tags.map((tag) => (
+        <Tag tag={tag} size={size} />
+      ))}
+    </div>
+  </div>
+)}
+
+<style>
+  .tags-container { margin: 1rem 0; }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  /* Tag styles are defined in Tag.astro */
+</style>

@@ -1,32 +1,60 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-
-
 import BlogPost from '../../components/BlogPost.astro';
-
+import ProjectPost from '../../components/ProjectPost.astro';
 import { getCollection } from "astro:content";
- 
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("blog");
+  const allProjects = await getCollection("projects");
 
-  const uniqueTags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())];
+  const blogTags = allPosts.flatMap((post: any) => post.data.tags ?? []);
+  const projectTags = allProjects.flatMap((item: any) => item.data.tags ?? []);
+  const uniqueTags = [...new Set([...blogTags, ...projectTags])];
 
   return uniqueTags.map((tag) => {
-    const filteredPosts = allPosts.filter((post: any) => post.data.tags.includes(tag));
+    const filteredPosts = allPosts.filter((post: any) => (post.data.tags ?? []).includes(tag));
+    const filteredProjects = allProjects.filter((item: any) => (item.data.tags ?? []).includes(tag));
     return {
       params: { tag },
-      props: { posts: filteredPosts },
+      props: { posts: filteredPosts, projects: filteredProjects },
     };
   });
 }
 
 const { tag } = Astro.params;
-const { posts } = Astro.props;
+const { posts = [], projects = [] } = Astro.props as { posts?: any[]; projects?: any[] };
 ---
+<style>
+  .blog-posts, .project-posts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  h2 { margin-top: 1.25rem; }
+</style>
+
+
 <BaseLayout pageTitle={tag}>
-  <p>Posts tagged with {tag}</p>
-  <ul>
-    {posts.map((post: any) => <BlogPost url={`/posts/${post.id}/`} title={post.data.title}/>)}
-  </ul>
+  {posts.length > 0 && (
+    <>
+      <h2>Blog posts</h2>
+      <ul class="blog-posts">
+        {posts.map((post: any) => (
+          <BlogPost url={`/posts/${post.id}/`} title={post.data.title} />
+        ))}
+      </ul>
+    </>
+  )}
+
+  {projects.length > 0 && (
+    <>
+      <h2>Project entries</h2>
+      <ul class="project-posts">
+        {projects.map((item: any) => (
+          <ProjectPost url={`/projects/${item.slug}/`} title={item.data.title} />
+        ))}
+      </ul>
+    </>
+  )}
 </BaseLayout>

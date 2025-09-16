@@ -5,6 +5,7 @@ import ProjectPost from "../../components/ProjectPost.astro";
 
 const pageTitle = "My Projects";
 const allProjects = await getCollection("projects");
+const topLevel = allProjects.filter(p => !p.slug.includes('/'));
 ---
 <style>
   .project-posts {
@@ -18,9 +19,9 @@ const allProjects = await getCollection("projects");
   <BaseLayout pageTitle={pageTitle}>
     <p>Here are some of the projects I've worked on.</p>
     <ul class="project-posts">
-    {allProjects.map((project: any) => 
-    <ProjectPost url={`/projects/${project.slug}/`} title={project.data.title} />)
-    }
+      {topLevel.map((project) => (
+        <ProjectPost url={`/projects/${project.slug}/`} title={project.data.title} />
+      ))}
     </ul>
   </BaseLayout>
 </html>

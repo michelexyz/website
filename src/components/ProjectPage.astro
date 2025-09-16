@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectPost from './ProjectPost.astro';
+import Tags from './Tags.astro';
+import { getCollection, render } from 'astro:content';
+
+const { projectName } = Astro.props as { projectName: string };
+
+const allProjects = await getCollection('projects');
+const mainProject = allProjects.find((p) => p.slug === projectName);
+const childItems = allProjects
+  .filter((p) => p.slug.startsWith(`${projectName}/`))
+  .sort((a, b) => (a.data.pubDate && b.data.pubDate ? a.data.pubDate.getTime() - b.data.pubDate.getTime() : 0));
+
+let Content: any = null;
+let title = projectName;
+if (mainProject) {
+  const rendered = await render(mainProject);
+  Content = rendered.Content;
+  title = (mainProject as any).data?.title ?? projectName;
+}
+---
+<style>
+  .lead { margin: 0.5rem 0 1rem; color: #475569; }
+  .sub-items { list-style: none; padding: 0; margin: 0; }
+  .no-items { color: #64748b; font-style: italic; }
+  h2 { margin-top: 1.25rem; }
+  .lead :global(p:first-child) { margin-top: 0; }
+  .lead :global(p:last-child) { margin-bottom: 0; }
+  
+</style>
+
+<BaseLayout pageTitle={title}>
+  {Content && (
+    <section class="lead">
+      <Content />
+    </section>
+  )}
+
+  {mainProject && <Tags tags={(mainProject as any).data?.tags} />}
+
+  <h2>Sections</h2>
+  {childItems.length > 0 ? (
+    <ul class="sub-items">
+      {childItems.map((item) => (
+        <ProjectPost url={`/projects/${item.slug}/`} title={item.data.title} />
+      ))}
+    </ul>
+  ) : (
+    <p class="no-items">No sections yet.</p>
+  )}
+</BaseLayout>

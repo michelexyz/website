@@ -1,19 +1,28 @@
 ---
-const { tag } = Astro.props;
+const { tag, size = 'md' } = Astro.props as { tag: string; size?: 'sm' | 'md' | 'lg' };
 ---
+
 <style>
   a {
     color: #00539F;
   }
 
   .tag {
-    margin: 0.25em;
-    border: dotted 1px #a1a1a1;
-    border-radius: .5em;
-    padding: .5em 1em;
-    font-size: 1.15em;
-    background-color: #F8FCFD;
+    display: inline-block;
+    background-color: #e2e8f0;
+    color: #475569;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin: 0.25rem 0.25rem 0.25rem 0;
   }
+  .tag:hover { background-color: #cbd5e1; color: #334155; }
+
+  /* Size variants */
+  .tag--sm { font-size: 0.75rem; padding: 0.15rem 0.5rem; }
+  .tag--md { font-size: 0.875rem; padding: 0.25rem 0.75rem; }
+  .tag--lg { font-size: 1rem; padding: 0.35rem 0.85rem; }
 </style>
 
-<a class="tag" href={`/tags/${tag}`}>#{tag}</a>
+<a class="tag" class={`tag tag--${size}`} href={`/tags/${tag}`}>#{tag}</a>

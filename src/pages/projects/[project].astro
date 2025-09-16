@@ -1,0 +1,15 @@
+---
+import ProjectPage from '../../components/ProjectPage.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  // Solo progetti top-level con un index.md: slug privo di '/'
+  const topLevel = projects.filter((p) => !p.slug.includes('/'));
+  return topLevel.map((p) => ({ params: { project: p.slug } }));
+}
+
+const { project } = Astro.params;
+---
+
+<ProjectPage projectName={project} />
