@@ -4,42 +4,35 @@ import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const entries = await getCollection('projects');
-  // Consideriamo solo gli index: ogni cartella con index.md produce uno slug unico.
-  // Ogni slug potrà avere child items i cui slug iniziano con `${slug}/`.
 
-    const topLevel = entries.filter(e => {
-        const path = e.slug.split('/');
-        return path.length === 1 || ! path.pop()?.includes('.');
+  return entries.map(entry => {
+    const slug = entry.slug;
+    const isIndex = entry.id.endsWith('/index.md') || entry.id === 'index.md';
+    const childItems = isIndex
+      ? entries.filter(e => e.slug.startsWith(slug + '/') && e.slug !== slug)
+      : [];
+    // Build breadcrumb for this entry
+    const segments = slug.split('/');
+    const breadcrumb = segments.map((_, idx, arr) => {
+      const partial = arr.slice(0, idx + 1).join('/');
+      const segEntry = entries.find(e => e.slug === partial);
+      const label = (segEntry as any)?.data?.title || arr[idx];
+      return { partial, label, url: `/projects/${partial}/`, current: idx === arr.length - 1 };
     });
-
-
-
-  return topLevel.map(entry => {
-
-    const path = entry.slug.split('/')
-
-
-    if (path.length === 1) {
-        
-        // if this is a regular markdown file, return the project page with no children
-        if (!entry.slug.includes('.')) {
-            return { params: { project: entry.slug }, props: { mainEntry: entry, childItems: [], slug: entry.slug } };
-        }
-     
-    }
-
-
-
-    const mainEntry = entry;
-    const childItems = entries.filter(e => e.slug.startsWith(entry.slug + '/') );
     return {
-      params: { project: entry.slug },
-      props: { mainEntry, childItems, slug: entry.slug }
+      params: { project: slug },
+      props: { slug, mainEntry: entry, childItems, isIndex, breadcrumb }
     };
-  });   
+  });
 }
-
-const { slug, mainEntry, childItems } = Astro.props as any;
+const { slug, mainEntry, childItems, isIndex, breadcrumb } = Astro.props as any;
 ---
 
-<ProjectLayout collection="projects" slug={slug} mainEntry={mainEntry} childItems={childItems} />
+<ProjectLayout
+  collection="projects"
+  slug={slug}
+  mainEntry={mainEntry}
+  childItems={childItems}
+  isIndex={isIndex}
+  breadcrumb={breadcrumb}
+/>

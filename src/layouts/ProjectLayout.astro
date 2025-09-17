@@ -10,14 +10,15 @@ interface Props {
   order?: 'pubDate' | 'title';
   mainEntry?: any;
   childItems?: any[];
+  isIndex?: boolean;
+  breadcrumb?: { partial: string; label: string; url: string; current: boolean }[];
 }
 
-const { collection, slug, order = 'pubDate', mainEntry: passedMain, childItems: passedChildren } = Astro.props as Props;
+const { collection, slug, order = 'pubDate', mainEntry: passedMain, childItems: passedChildren, isIndex = true, breadcrumb: passedBreadcrumb } = Astro.props as Props;
 
-let entries: any[] = [];
-if (!passedMain || !passedChildren) {
-  entries = await getCollection(collection as any);
-}
+// Load collection entries only if we need to compute breadcrumb or find mainEntry/children not passed
+const needEntries = !passedMain || !passedChildren || !passedBreadcrumb;
+const entries = needEntries ? await getCollection(collection as any) as any[] : [];
 
 const mainEntry = passedMain ?? entries.find(e => e.slug === slug);
 let childItems = passedChildren ?? entries.filter(e => e.slug.startsWith(`${slug}/`));
@@ -42,6 +43,17 @@ if (mainEntry) {
   Content = rendered.Content;
   title = (mainEntry as any).data?.title || slug;
 }
+
+// Use passed breadcrumb if present, else compute (fallback for other collections)
+const breadcrumb = passedBreadcrumb ?? (() => {
+  const segs = slug.split('/');
+  return segs.map((_, idx, arr) => {
+    const partial = arr.slice(0, idx + 1).join('/');
+    const entry = entries.find((e: any) => e.slug === partial);
+    const label = entry?.data?.title || arr[idx];
+    return { partial, label, url: `/${collection}/${partial}/`, current: idx === arr.length - 1 };
+  });
+})();
 ---
 <style>
   .lead { margin: 0.5rem 0 1rem; color: #475569; }
@@ -50,9 +62,23 @@ if (mainEntry) {
   h2 { margin-top: 1.25rem; }
   .lead :global(p:first-child) { margin-top: 0; }
   .lead :global(p:last-child) { margin-bottom: 0; }
+  .breadcrumb { font-size: 0.75rem; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .breadcrumb a { text-decoration: none; color: var(--accent, #0f62fe); }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb .sep { opacity: 0.6; }
 </style>
 
 <BaseLayout pageTitle={title}>
+  {breadcrumb.length > 1 && (
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      {breadcrumb.map((b, i) => (
+        <>
+          {!b.current ? <a href={b.url}>{b.label}</a> : <span aria-current="page">{b.label}</span>}
+          {i < breadcrumb.length - 1 && <span class="sep">/</span>}
+        </>
+      ))}
+    </nav>
+  )}
   {mainEntry && <Tags tags={(mainEntry as any).data?.tags} />}
   {Content && (
     <section class="lead">
@@ -62,14 +88,18 @@ if (mainEntry) {
 
   <slot />
 
-  <h2>Sections</h2>
-  {childItems.length > 0 ? (
-    <ul class="sub-items">
-      {childItems.map(item => (
-        <ProjectPost url={`/${collection}/${item.slug}/`} title={(item.data as any).title} />
-      ))}
-    </ul>
-  ) : (
-    <p class="no-items">No sections yet.</p>
+  {isIndex && (
+    <>
+      <h2>Sections</h2>
+      {childItems.length > 0 ? (
+        <ul class="sub-items">
+          {childItems.map(item => (
+            <ProjectPost url={`/${collection}/${item.slug}/`} title={(item.data as any).title} />
+          ))}
+        </ul>
+      ) : (
+        <p class="no-items">No sections yet.</p>
+      )}
+    </>
   )}
 </BaseLayout>

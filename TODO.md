@@ -1,0 +1,2 @@
+- [ ] change style
+- [ ] reason about removing "home"
