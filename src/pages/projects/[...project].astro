@@ -1,0 +1,45 @@
+---
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('projects');
+  // Consideriamo solo gli index: ogni cartella con index.md produce uno slug unico.
+  // Ogni slug potrà avere child items i cui slug iniziano con `${slug}/`.
+
+    const topLevel = entries.filter(e => {
+        const path = e.slug.split('/');
+        return path.length === 1 || ! path.pop()?.includes('.');
+    });
+
+
+
+  return topLevel.map(entry => {
+
+    const path = entry.slug.split('/')
+
+
+    if (path.length === 1) {
+        
+        // if this is a regular markdown file, return the project page with no children
+        if (!entry.slug.includes('.')) {
+            return { params: { project: entry.slug }, props: { mainEntry: entry, childItems: [], slug: entry.slug } };
+        }
+     
+    }
+
+
+
+    const mainEntry = entry;
+    const childItems = entries.filter(e => e.slug.startsWith(entry.slug + '/') );
+    return {
+      params: { project: entry.slug },
+      props: { mainEntry, childItems, slug: entry.slug }
+    };
+  });   
+}
+
+const { slug, mainEntry, childItems } = Astro.props as any;
+---
+
+<ProjectLayout collection="projects" slug={slug} mainEntry={mainEntry} childItems={childItems} />

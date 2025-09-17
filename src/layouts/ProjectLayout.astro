@@ -1,0 +1,75 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ProjectPost from '../components/ProjectPost.astro';
+import Tags from '../components/Tags.astro';
+import { getCollection, render } from 'astro:content';
+
+interface Props {
+  collection: string;
+  slug: string;
+  order?: 'pubDate' | 'title';
+  mainEntry?: any;
+  childItems?: any[];
+}
+
+const { collection, slug, order = 'pubDate', mainEntry: passedMain, childItems: passedChildren } = Astro.props as Props;
+
+let entries: any[] = [];
+if (!passedMain || !passedChildren) {
+  entries = await getCollection(collection as any);
+}
+
+const mainEntry = passedMain ?? entries.find(e => e.slug === slug);
+let childItems = passedChildren ?? entries.filter(e => e.slug.startsWith(`${slug}/`));
+
+if (order === 'pubDate') {
+  childItems.sort((a, b) => {
+    const ad = (a.data as any).pubDate?.getTime?.() || 0;
+    const bd = (b.data as any).pubDate?.getTime?.() || 0;
+    return ad - bd;
+  });
+} else if (order === 'title') {
+  childItems.sort((a, b) => {
+    const at = ((a.data as any).title || '').localeCompare((b.data as any).title || '');
+    return at;
+  });
+}
+
+let Content: any = null;
+let title = slug;
+if (mainEntry) {
+  const rendered = await render(mainEntry as any);
+  Content = rendered.Content;
+  title = (mainEntry as any).data?.title || slug;
+}
+---
+<style>
+  .lead { margin: 0.5rem 0 1rem; color: #475569; }
+  .sub-items { list-style: none; padding: 0; margin: 0; }
+  .no-items { color: #64748b; font-style: italic; }
+  h2 { margin-top: 1.25rem; }
+  .lead :global(p:first-child) { margin-top: 0; }
+  .lead :global(p:last-child) { margin-bottom: 0; }
+</style>
+
+<BaseLayout pageTitle={title}>
+  {mainEntry && <Tags tags={(mainEntry as any).data?.tags} />}
+  {Content && (
+    <section class="lead">
+      <Content />
+    </section>
+  )}
+
+  <slot />
+
+  <h2>Sections</h2>
+  {childItems.length > 0 ? (
+    <ul class="sub-items">
+      {childItems.map(item => (
+        <ProjectPost url={`/${collection}/${item.slug}/`} title={(item.data as any).title} />
+      ))}
+    </ul>
+  ) : (
+    <p class="no-items">No sections yet.</p>
+  )}
+</BaseLayout>
