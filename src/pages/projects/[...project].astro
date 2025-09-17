@@ -8,11 +8,17 @@ export async function getStaticPaths() {
   return entries.map(entry => {
     const slug = entry.slug;
     const isIndex = entry.id.endsWith('/index.md') || entry.id === 'index.md';
-    const childItems = isIndex
-      ? entries.filter(e => e.slug.startsWith(slug + '/') && e.slug !== slug)
-      : [];
-    // Build breadcrumb for this entry
+    
+    
     const segments = slug.split('/');
+    //this is used to get only direct children
+    const depth = segments.length;
+    const childItems = isIndex
+      ? entries.filter(e => e.slug.startsWith(slug + '/') && e.slug !== slug && e.slug.split('/').length === depth + 1)
+      : [];
+
+
+    // Build breadcrumb for this entry
     const breadcrumb = segments.map((_, idx, arr) => {
       const partial = arr.slice(0, idx + 1).join('/');
       const segEntry = entries.find(e => e.slug === partial);
