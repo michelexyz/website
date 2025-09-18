@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import DownloadButton from "../components/DownloadButton.astro";
 
 
 
@@ -30,25 +31,5 @@ const happy = true;
     <p>I live in Amsterdam, but I grew up in Milan.</p>
     <p><em>Recently</em> I have been working on my <a href="/projects/master-thesis">Master Thesis</a>.</p>
 
-    <a href="/CV.pdf" class="download-btn" download="CV.pdf">
-        Download My CV
-    </a>
-
-    <style>
-        .download-btn {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 0.75rem 1.5rem;
-            background-color: #3b82f6;
-            color: white;
-            text-decoration: none;
-            border-radius: 0.375rem;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-        }
-
-        .download-btn:hover {
-            background-color: #2563eb;
-        }
-    </style>
+    <DownloadButton href="/CV_Vannucci_Michele.pdf" filename="CV_Vannucci_Michele.pdf" text="Download My CV" />
 </BaseLayout>
