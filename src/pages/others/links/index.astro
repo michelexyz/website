@@ -1,31 +1,21 @@
 ---
-import { getCollection } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import ProjectPost from "../../../components/ProjectPost.astro";
-
-const links = await getCollection("links");
+import BlogFeed from "../../../components/feed/BlogFeed.astro";
+import { getCollection } from "astro:content";
 
 const pageTitle = "Links";
-
-const topLevel = links.filter(p => !p.slug.includes('/'));
-
+const entries = await getCollection('links');
+// newest first
+entries.sort((a: any, b: any) => (b.data.pubDate?.getTime?.() || 0) - (a.data.pubDate?.getTime?.() || 0));
 ---
-
-<style>
-  .link-posts {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-</style>
-
-<html lang="en">
-  <BaseLayout pageTitle={pageTitle}>
-    <p>Here are some of the links I've found useful.</p>
-    <ul class="link-posts">
-      {topLevel.map((link) => (
-        <ProjectPost url={`/others/links/${link.slug}/`} title={link.data.title} />
-      ))}
-    </ul>
-  </BaseLayout>
-</html>
+<BaseLayout pageTitle={pageTitle}>
+  <p>Curated links and things to check out.</p>
+  <BlogFeed
+    items={entries.map((e: any) => ({
+      url: `/links/${e.slug}/`,
+      title: e.data.title,
+      pubDate: e.data.pubDate,
+      description: e.data.description
+    }))}
+  />
+</BaseLayout>

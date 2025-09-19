@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import ProjectPost from '../components/ProjectPost.astro';
+import Sections from '../components/feed/Sections.astro';
 import Tags from '../components/Tags.astro';
 import { getCollection, render } from 'astro:content';
 
@@ -91,15 +92,15 @@ const breadcrumb = passedBreadcrumb ?? (() => {
   {isIndex && (
     <>
       <h2>Sections</h2>
-      {childItems.length > 0 ? (
-        <ul class="sub-items">
-          {childItems.map(item => (
-            <ProjectPost url={`/${collection}/${item.slug}/`} title={(item.data as any).title} />
-          ))}
-        </ul>
-      ) : (
-        <p class="no-items">No sections yet.</p>
-      )}
+      <Sections
+        items={childItems.map((item: any) => ({
+          url: `/${collection}/${item.slug}/`,
+          title: item.data?.title,
+          pubDate: item.data?.pubDate,
+          description: item.data?.description
+        }))}
+        emptyText="No sections yet."
+      />
     </>
   )}
 </BaseLayout>

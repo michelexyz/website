@@ -1,0 +1,29 @@
+---
+import BlogFeedItem from './BlogFeedItem.astro';
+
+interface Item {
+  url: string;
+  title: string;
+  pubDate?: Date | string;
+  description?: string;
+}
+
+interface Props {
+  items: Item[];
+  heading?: string;
+}
+
+const { items, heading } = Astro.props as Props;
+---
+<style>
+  .feed { list-style: none; padding: 0; margin: 0; }
+  /* Item-level styles live in BlogFeedItem */
+  h2 { margin: 1rem 0 0.5rem; }
+</style>
+
+{heading && <h2>{heading}</h2>}
+<ul class="feed">
+  {items.map((it) => (
+    <BlogFeedItem url={it.url} title={it.title} pubDate={it.pubDate} description={it.description} />
+  ))}
+</ul>

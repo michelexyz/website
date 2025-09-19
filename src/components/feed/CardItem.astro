@@ -1,0 +1,33 @@
+---
+interface Props {
+  url: string;
+  title: string;
+  pubDate?: Date | string;
+  description?: string;
+  className?: string;
+}
+
+const { url, title, pubDate, description, className } = Astro.props as Props;
+
+function formatDate(d?: Date | string) {
+  if (!d) return '';
+  const dt = d instanceof Date ? d : new Date(d);
+  if (Number.isNaN(dt.getTime())) return '';
+  return dt.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+}
+---
+<style>
+  .card { display: block; border: 1px solid rgba(0,0,0,0.08); border-radius: 0.5rem; padding: 0.9rem; background: white; text-decoration: none; color: inherit; }
+  .card:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  .title { font-weight: 700; margin-bottom: 0.25rem; }
+  .meta { color: #64748b; font-size: 0.85rem; }
+  .desc { color: #334155; margin-top: 0.25rem; }
+</style>
+
+<a class={`card${className ? ' ' + className : ''}`} href={url}>
+  <div class="title">{title}</div>
+  {(pubDate || description) && (
+    <div class="meta">{formatDate(pubDate)}</div>
+  )}
+  {description && <div class="desc">{description}</div>}
+</a>

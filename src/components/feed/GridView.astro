@@ -1,0 +1,37 @@
+---
+import CardItem from './CardItem.astro';
+
+interface Item {
+  url: string;
+  title: string;
+  pubDate?: Date | string;
+  description?: string;
+}
+
+interface Props {
+  items: Item[];
+  minWidth?: string; // e.g., '16rem'
+  gap?: string; // e.g., '1rem'
+  heading?: string;
+}
+
+const { items, minWidth = '16rem', gap = '1rem', heading } = Astro.props as Props;
+
+// date formatting moved inside CardItem
+---
+<style>
+  .wrap { margin-top: 0.5rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--minw), 1fr)); gap: var(--gap); }
+  /* Card styles live in CardItem */
+  h2 { margin: 1rem 0 0.5rem; }
+</style>
+
+<div class="wrap" style={`--minw:${minWidth}; --gap:${gap};`}>
+  {heading && <h2>{heading}</h2>}
+  <div class="grid">
+    {items.map((it) => (
+      <CardItem url={it.url} title={it.title} pubDate={it.pubDate} description={it.description} />
+    ))}
+  </div>
+  
+</div>

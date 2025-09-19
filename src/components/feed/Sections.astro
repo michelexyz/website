@@ -1,0 +1,39 @@
+---
+import SectionItem from './SectionItem.astro';
+
+interface Item {
+  url: string;
+  title: string;
+  pubDate?: Date | string;
+  description?: string;
+}
+
+interface Props {
+  items: Item[];
+  emptyText?: string;
+  heading?: string;
+}
+
+const { items, emptyText = 'No items yet.', heading } = Astro.props as Props;
+---
+<style>
+  .wrapper { margin-top: 0.5rem; }
+  .list { list-style: none; padding: 0; margin: 0; }
+  .item { margin: 0; padding: 0; }
+  h2 { margin: 1rem 0 0.5rem; }
+  .empty { color: #64748b; font-style: italic; }
+}</style>
+
+<div class="wrapper">
+  {heading && <h2>{heading}</h2>}
+  {items.length > 0 ? (
+    <ul class="list">
+      {items.map((it) => (
+        <SectionItem url={it.url} title={it.title} pubDate={it.pubDate} description={it.description} />
+      ))}
+    </ul>
+  ) : (
+    <p class="empty">{emptyText}</p>
+  )}
+  
+</div>

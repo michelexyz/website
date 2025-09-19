@@ -1,2 +1,18 @@
 ---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import GridView from "../../components/feed/GridView.astro";
+
+
+const pageTitle = "Others";
 ---
+<BaseLayout pageTitle={pageTitle}>
+  <p>Explore other things I like to share.</p>
+  <GridView
+    heading="Collections"
+    items={[
+      { url: "/others/links/", title: "Links", description: "Curated links and things to check out" },
+      { url: "/others/music/", title: "Music", description: "What I'm listening to and playlists" },
+      { url: "/others/gallery/", title: "Gallery", description: "Images and visual notes" },
+    ]}
+  />
+</BaseLayout>
