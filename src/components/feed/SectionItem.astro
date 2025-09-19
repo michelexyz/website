@@ -16,12 +16,12 @@ function formatDate(d?: Date | string) {
 }
 ---
 <style>
-  .card { margin: 0.5rem 0; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; background-color: #ffffff; transition: box-shadow 0.2s ease, transform 0.1s ease, border-color 0.2s ease; }
-  .card:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.08); transform: translateY(-2px); border-color: #cbd5e1; }
+  .card { margin: 0.5rem 0; padding: 1rem; border: 1px solid var(--border); border-radius: 0.5rem; background-color: var(--card-bg); transition: box-shadow 0.2s ease, transform 0.1s ease, border-color 0.2s ease; }
+  .card:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.15); transform: translateY(-2px); }
   .link { text-decoration: none; color: inherit; display: block; }
-  .title { margin: 0; font-size: 1.05rem; font-weight: 700; color: #1e293b; }
-  .meta { color: #64748b; font-size: 0.85rem; margin-top: 0.25rem; }
-  .desc { color: #475569; margin-top: 0.35rem; }
+  .title { margin: 0; font-size: 1.05rem; font-weight: 700; }
+  .meta { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.25rem; }
+  .desc { color: var(--text); opacity: 0.85; margin-top: 0.35rem; }
 </style>
 
 <li class="card">

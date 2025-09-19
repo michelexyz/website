@@ -16,11 +16,11 @@ function formatDate(d?: Date | string) {
 }
 ---
 <style>
-  .post { padding: 0.85rem 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .post { padding: 0.85rem 0; border-bottom: 1px solid var(--border); }
   .post:last-child { border-bottom: none; }
   .title { font-size: 1.05rem; font-weight: 700; }
-  .meta { color: #64748b; font-size: 0.85rem; margin-top: 0.125rem; }
-  .desc { color: #334155; margin-top: 0.25rem; }
+  .meta { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.125rem; }
+  .desc { color: var(--text); opacity: 0.85; margin-top: 0.25rem; }
   a { text-decoration: none; color: inherit; }
   a:hover { text-decoration: underline; }
 </style>

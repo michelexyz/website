@@ -1,5 +1,16 @@
+:root {
+  --bg: #f1f5f9;
+  --text: #0f172a; /* slate-900 */
+  --text-muted: #475569; /* slate-600 */
+  --border: #e2e8f0; /* slate-200 */
+  --card-bg: #ffffff;
+  --accent: #3b82f6; /* blue-500 */
+  --accent-hover: #2563eb; /* blue-600 */
+  --accent-contrast: #ffffff;
+}
+
 html {
-  background-color: #f1f5f9;
+  background-color: var(--bg);
   font-family: sans-serif;
 }
 
@@ -9,6 +20,7 @@ body {
   max-width: 80ch;
   padding: 1rem;
   line-height: 1.5;
+  color: var(--text);
 }
 
 * {
@@ -81,10 +93,15 @@ h1 {
 }
 
 /* dark mode styles */
-
 html.dark {
-  background-color: #0d0950;
-  color: #fff;
+  /* override tokens */
+  --bg: #222434;
+  --text: #e5e7eb; /* slate-200 */
+  --text-muted: #94a3b8; /* slate-400 */
+  --border: #334155; /* slate-700 */
+  --card-bg: #0f172a; /* slate-900 */
+  --accent: #60a5fa; /* blue-400 */
+  --accent-hover: #3b82f6; /* blue-500 */
 }
 
 .dark .nav-links a {

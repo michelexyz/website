@@ -13,5 +13,9 @@ export default defineConfig({
   // replace with your actual site URL
   site: 'https://website-c1d.pages.dev/',
 
-  integrations: [preact()]
+  integrations: [preact()],
+
+  prefetch: {// enable link prefetching (need to add this manually as <a href="/about" data-astro-prefetch>)
+    prefetchAll: true
+  },
 });
