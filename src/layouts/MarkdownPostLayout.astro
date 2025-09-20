@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import Tags from '../components/Tags.astro';
+import DateText from '../components/DateText.astro';
 const { frontmatter } = Astro.props;
 
 
@@ -8,8 +9,7 @@ const { frontmatter } = Astro.props;
 
 
 <BaseLayout pageTitle={frontmatter.title}>
-  {frontmatter.author && <p>Written by {frontmatter.author}</p>}
-  <p>Published on: {frontmatter.pubDate.toLocaleDateString()}</p>
+  <p>Published on: <DateText value={frontmatter.pubDate} /></p>
 
   <Tags tags={frontmatter.tags} size="sm" />
 

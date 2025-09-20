@@ -16,11 +16,11 @@ const allPosts = await getCollection("blog");
 </style>
 
 <html lang="en">
-  <BaseLayout pageTitle={"Blog"}>
+  <BaseLayout pageTitle={"Michele's Blog"}>
     <p>This is where I will post about my journey learning Astro.</p>
     <BlogFeed
       items={allPosts.map((post: any) => ({
-        url: `/posts/${post.id}/`,
+        url: `/blog/${post.id}/`,
         title: post.data.title,
         pubDate: post.data.pubDate,
         description: post.data.description

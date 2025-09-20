@@ -1,0 +1,22 @@
+---
+interface Props {
+  value?: Date | string;
+  dateStyle?: Intl.DateTimeFormatOptions; // allows overrides if needed
+}
+
+const { value, dateStyle } = Astro.props as Props;
+
+function toDate(v?: Date | string): Date | undefined {
+  if (!v) return undefined;
+  if (v instanceof Date) return v;
+  const d = new Date(v);
+  return Number.isNaN(d.getTime()) ? undefined : d;
+}
+
+const dt = toDate(value);
+const display = dt
+  ? dt.toLocaleDateString(undefined, dateStyle ?? { year: 'numeric', month: 'short', day: 'numeric' })
+  : '';
+const iso = dt ? dt.toISOString() : '';
+---
+<time datetime={iso}>{display}</time>

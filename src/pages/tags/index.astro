@@ -13,17 +13,11 @@ const pageTitle = "Tag Index";
 <BaseLayout pageTitle={pageTitle}>
   <div class="tags">
     {tags.map((tag) => (
-      <a href={`/tags/${tag}/`} class="tag-link">
-        <Tag tag={tag} size="lg" />
-      </a>
+      <Tag tag={tag} size="lg" />
     ))}
   </div>
 </BaseLayout>
 <style>
-  a {
-    color: #00539F;
-  }
-
   .tags {
     display: flex;
     flex-wrap: wrap;

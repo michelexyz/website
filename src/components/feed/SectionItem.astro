@@ -1,4 +1,6 @@
 ---
+import DateText from '../../components/DateText.astro';
+
 interface Props {
   url: string;
   title: string;
@@ -8,12 +10,7 @@ interface Props {
 
 const { url, title, pubDate, description } = Astro.props as Props;
 
-function formatDate(d?: Date | string) {
-  if (!d) return '';
-  const dt = d instanceof Date ? d : new Date(d);
-  if (Number.isNaN(dt.getTime())) return '';
-  return dt.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
-}
+// date formatting handled by DateText
 ---
 <style>
   .card { margin: 0.5rem 0; padding: 1rem; border: 1px solid var(--border); border-radius: 0.5rem; background-color: var(--card-bg); transition: box-shadow 0.2s ease, transform 0.1s ease, border-color 0.2s ease; }
@@ -27,7 +24,7 @@ function formatDate(d?: Date | string) {
 <li class="card">
   <a class="link" href={url}>
     <h3 class="title">{title}</h3>
-    {(pubDate || description) && <div class="meta">{formatDate(pubDate)}</div>}
+  {(pubDate || description) && <div class="meta"><DateText value={pubDate} /></div>}
     {description && <p class="desc">{description}</p>}
   </a>
   

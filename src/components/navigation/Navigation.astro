@@ -1,9 +1,55 @@
 ---
+
+const domain = Astro.site || 'http://localhost:4321';
+const normalize = (p: string) => p.replace(/\/$/, '');
+const current = normalize(Astro.url.pathname);
+
+const isActive = (href: string) => {
+  const base = normalize(href);
+  if (current === base) return true;
+  return current.startsWith(base + '/');
+};
+
+const items = [
+  { href: '/about', label: 'About' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/tags', label: 'Tags' },
+  { href: '/others', label: 'Others' },
+];
 ---
-<div class="nav-links">
-  <a href="/about" data-astro-prefetch>About</a>
-  <a href="/projects" data-astro-prefetch>Projects</a>
-  <a href="/blog" data-astro-prefetch>Blog</a>
-  <a href="/tags" data-astro-prefetch>Tags</a>
-  <a href="/others" data-astro-prefetch>Others</a>
+<style>
+  .nav {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: center;
+  }
+  .link {
+    text-decoration: none;
+    font-size: 2rem;
+    color: inherit;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.01rem;
+    border: 2px solid transparent;
+    transition: background-color 120ms ease, color 80ms ease, border-color 120ms ease;
+  }
+  .link:hover { background: var(--nav-hover-bg); color: #000; }
+  .link:active { color: var(--nav-active-text); }
+  .active { border-color: var(--nav-outline); }
+  @media (max-width: 820px) {
+    .link { padding: 0.45rem 0.65rem; font-size: 1.2rem; }
+  }
+ 
+  @media (max-width: 600px) {
+    .link { padding: 0.40rem 0.5rem; font-size: 1.2rem; }
+  }
+
+</style>
+
+<div class="nav nav-links">
+  {items.map((it) => (
+    <a class={`link${isActive(it.href) ? ' active' : ''}`} href={it.href} data-astro-prefetch>{it.label}</a>
+  ))}
 </div>

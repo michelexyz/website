@@ -4,7 +4,7 @@ const { tags, size = 'md' } = Astro.props as { tags?: string[]; size?: 'sm' | 'm
 ---
 {tags && tags.length > 0 && (
   <div class="tags-container">
-    <p><strong>Tags:</strong></p>
+    <!-- <p><strong>Tags:</strong></p> -->
     <div class="tags">
       {tags.map((tag) => (
         <Tag tag={tag} size={size} />
