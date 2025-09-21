@@ -1,2 +1,4 @@
-- [ ] change style
-- [ ] reason about removing "home"
+- [X] change style
+- [X] reason about removing "home"
+- [ ] Organize better "marquee" in separate component
+- [ ] Make title detached form the "header" component?

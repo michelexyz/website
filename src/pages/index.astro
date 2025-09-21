@@ -1,9 +1,67 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Greeting from '../components/Greeting.jsx';
+import { getCollection } from 'astro:content';
+
 const pageTitle = "Home Page";
+
+const [blogEntries, projectEntries, linkEntries] = await Promise.all([
+  getCollection('blog'),
+  getCollection('projects'),
+  getCollection('links')
+]);
+
+const contentLinks = [
+  ...blogEntries.map((entry) => ({
+    label: entry.data.title,
+    url: `/blog/${entry.id}/`
+  })),
+  ...projectEntries.map((entry) => ({
+    label: entry.data.title,
+    url: `/projects/${entry.slug}/`
+  })),
+  ...linkEntries.map((entry) => ({
+    label: entry.data.title,
+    url: `/links/${entry.slug}/`
+  }))
+];
+
+const navFallback = [
+  { label: 'About', url: '/about' },
+  { label: 'Projects', url: '/projects' },
+  { label: 'Blog', url: '/blog' },
+  { label: 'Tags', url: '/tags' },
+  { label: 'Others', url: '/others' }
+];
+
+const seen = new Set<string>();
+const uniqueCandidates = [...contentLinks, ...navFallback].filter((item) => {
+  const key = `${item.label}|${item.url}`;
+  if (seen.has(key)) return false;
+  seen.add(key);
+  return true;
+});
+
+const shuffle = <T,>(items: T[]) => {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+};
+
+const marqueeItems = shuffle(uniqueCandidates).slice(0, Math.min(uniqueCandidates.length, 14));
+
+const headerIntro = marqueeItems.length
+  ? { name: 'Michele Vannucci', links: marqueeItems }
+  : null;
 ---
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout
+  pageTitle={pageTitle}
+  bodyClass={headerIntro ? 'home-intro-active' : ''}
+  headerIntro={headerIntro}
+>
   <h2>My awesome blog subtitle</h2>
   <Greeting client:load messages={["Hej", "Hallo", "Hola", "Habari"]} />
 
