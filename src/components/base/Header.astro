@@ -38,6 +38,7 @@ const marqueeItems = showIntro ? [...intro!.links, ...intro!.links] : [];
   </div>
 </header>
 
+<!-- Detects when a nav link is clicked to collapse the intro -->
 {showIntro && (
   <script is:inline>
     (() => {
@@ -149,7 +150,7 @@ const marqueeItems = showIntro ? [...intro!.links, ...intro!.links] : [];
 
   body:not(.home-intro-active) .site-header--with-intro .site-header__intro {
     opacity: 0;
-    transform: translateY(-1rem);
+    transform: translateX(-1rem);
     max-height: 0;
     pointer-events: none;
   }
