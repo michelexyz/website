@@ -12,7 +12,7 @@ entries.sort((a: any, b: any) => (b.data.pubDate?.getTime?.() || 0) - (a.data.pu
   <p>Curated links and things to check out.</p>
   <BlogFeed
     items={entries.map((e: any) => ({
-      url: `/links/${e.slug}/`,
+      url: `${e.slug}/`,
       title: e.data.title,
       pubDate: e.data.pubDate,
       description: e.data.description

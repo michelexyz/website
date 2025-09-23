@@ -1,13 +1,13 @@
 ---
 interface Props {
   platform: string;
-  username: string;
+  url: string;
   bgColor?: string; // optional background color (hex, rgb, var, etc.)
   icon?: string; // optional icon filename in /public/icons, e.g. "github.svg"
 }
 
-const { platform, username, bgColor, icon } = Astro.props as Props;
-const href = `https://www.${platform}.com/${username}`;
+const { platform, url, bgColor, icon } = Astro.props as Props;
+const href = url.startsWith('http') ? url : `https://${url}`;
 // If an icon is provided, force a dim white background for contrast with the logo
 const baseBg = bgColor ?? 'var(--accent, #4c1d95)';
 const resolvedBg = icon ? 'rgba(255,255,255,0.85)' : baseBg;
@@ -42,5 +42,8 @@ const resolvedBg = icon ? 'rgba(255,255,255,0.85)' : baseBg;
     width: 18px;
     height: 18px;
   }
-  .label { text-transform: capitalize; }
+  .label {
+    font-size: 0.875rem;
+    font-weight: 500;
+  } 
 </style>

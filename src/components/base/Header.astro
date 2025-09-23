@@ -1,4 +1,5 @@
 ---
+import Banner from '../Banner.astro';
 import Navigation from '../navigation/Navigation.astro';
 import ThemeIcon from './ThemeIcon.astro';
 
@@ -13,52 +14,48 @@ type IntroData = {
 } | null;
 
 const intro = Astro.props.intro as IntroData;
-const showIntro = Array.isArray(intro?.links) && intro.links.length > 0;
-const marqueeItems = showIntro ? [...intro!.links, ...intro!.links] : [];
+const rawPath = Astro.url?.pathname ?? '/';
+const normalizedPath = rawPath === '/' ? '/' : rawPath.replace(/\/+$/, '');
+const primaryRoutes = new Set(['','/', '/about', '/projects', '/blog', '/tags', '/others']);
+const enableViewTransition = primaryRoutes.has(normalizedPath);
+const headerStyle = enableViewTransition ? 'view-transition-name: header;' : undefined;
+const navRowStyle = enableViewTransition ? 'view-transition-name: nav-row;' : undefined;
 ---
-<header class={`site-header${showIntro ? ' site-header--with-intro' : ''}`}>
-  {showIntro && intro && (
-    <div class="site-header__intro" aria-live="polite">
-      <div class="site-header__name">{intro.name}</div>
-      <div class="site-header__marquee" role="navigation" aria-label="Featured pages">
-        <div class="site-header__marquee-track">
-          {marqueeItems.map((item, index) => (
-            <a class="site-header__marquee-item" href={item.url} data-index={index}>{item.label}</a>
-          ))}
-        </div>
-      </div>
-    </div>
-  )}
+<header class="site-header" style={headerStyle}>
 
-  <div class="site-header__nav-row">
-    <ThemeIcon />
+  <div class="site-header__banner">
+    {intro && <Banner intro={intro} />}
+  </div>
+  
+
+  <div class="site-header__nav-row" style={navRowStyle}>
+    <!-- logo -->
+    <div class="site-header__logo">
+      <a href="/" aria-label="Home">
+        <img src="/logo.png" alt="Michele Vannucci" width="48" height="48" />
+      </a>
+    </div>
+    
     <nav class="site-header__nav" aria-label="Primary">
       <Navigation />
     </nav>
+    <div class="theme-icon">
+    <ThemeIcon  />
+    </div>
+  
   </div>
 </header>
 
-<!-- Detects when a nav link is clicked to collapse the intro -->
-{showIntro && (
-  <script is:inline>
-    (() => {
-      const body = document.body;
-      if (!body.classList.contains('home-intro-active')) return;
-      const collapseIntro = () => {
-        if (!body.classList.contains('home-intro-active')) return;
-        body.classList.remove('home-intro-active');
-      };
-      const navLinks = document.querySelectorAll('header nav a');
-      navLinks.forEach((link) => {
-        link.addEventListener('click', collapseIntro, { once: true });
-      });
-    })();
-  </script>
-)}
 
 <style>
+  @view-transition {
+      navigation: auto;
+    }
+
+  .site-header__nav-row { view-transition-name: navigator; }
+  .site-header__banner { view-transition-name: banner; }
   .site-header {
-    display: flex;
+    display: flex:inline;
     flex-direction: column;
     gap: 1.25rem;
     position: relative;
@@ -69,8 +66,7 @@ const marqueeItems = showIntro ? [...intro!.links, ...intro!.links] : [];
     align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
-    justify-content: space-between;
-    transition: padding-top 220ms ease;
+    justify-content: center;
   }
 
   .site-header__nav-row nav {
@@ -79,113 +75,18 @@ const marqueeItems = showIntro ? [...intro!.links, ...intro!.links] : [];
     justify-content: center;
   }
 
-  .site-header__nav-row nav :global(.nav) {
-    justify-content: center;
-    width: 100%;
-  }
 
-  .site-header__intro {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    opacity: 1;
-    transform: translateY(0);
-    max-height: 12rem;
-    transition: opacity 260ms ease, transform 260ms ease, max-height 260ms ease;
-  }
-
-  .site-header__name {
-    font-size: clamp(2.4rem, 6vw, 3.75rem);
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    margin: 0;
-    color: var(--text);
-  }
-
-  .site-header__marquee {
-    display: inline-flex;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    background: var(--card-bg);
-    padding: 0.6rem 0;
-    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
-
-  }
-
-  .site-header__marquee-track {
-    display: inline-flex;
-    gap: 1.5rem;
-    align-items: center;
-    animation: marquee-roll 24s linear infinite;
-  }
-
-  .site-header__marquee:hover .site-header__marquee-track {
-    animation-play-state: paused;
-  }
-
-  .site-header__marquee-item { 
-    display: inline-flex;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-    font-size: 0.95rem;
-    white-space: nowrap;
-    padding: 0 0.75rem;
-    line-height: 1.4;
-    transition: color 160ms ease;
-  }
-
-  .site-header__marquee-item:focus,
-  .site-header__marquee-item:hover {
-    color: var(--nav-hover-bg);
-  }
-
-  body.home-intro-active .site-header__nav-row {
-    padding-top: 0.25rem;
-  }
-
-  body:not(.home-intro-active) .site-header--with-intro .site-header__intro {
-    opacity: 0;
-    transform: translateX(-1rem);
-    max-height: 0;
-    pointer-events: none;
-  }
-
-  body:not(.home-intro-active) .site-header__nav-row {
-    padding-top: 0;
-  }
-
-  @keyframes marquee-roll {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
-
-  @media (max-width: 720px) {
+  @media (max-width: 600px) {
     .site-header__nav-row {
       justify-content: center;
     }
+    /* hide theme icon */
+    .site-header__nav-row .theme-icon {
+      display: none;
+    }
+
     .site-header__nav-row nav {
       flex: 1 1 100%;
-    }
-    .site-header__marquee-track {
-      animation-duration: 30s;
-    }
-    .site-header__name {
-      letter-spacing: 0.12em;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .site-header__marquee-track {
-      animation: none;
     }
   }
 </style>

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import DownloadButton from "../components/DownloadButton.astro";
+import CalScheduleButton from "../components/CalScheduleButton.astro";
 
 
 
@@ -32,4 +33,10 @@ const happy = true;
     <p><em>Recently</em> I have been working on my <a href="/projects/master-thesis">Master Thesis</a>.</p>
 
     <DownloadButton href="/CV_Vannucci_Michele.pdf" filename="CV_Vannucci_Michele.pdf" text="Download My CV" />
+
+    <h2>Contacts</h2>
+    Below you can always find different ways to reach me.
+    Otherwise, you can also schedule a free 30-minute meeting directly.
+    
+      <CalScheduleButton text="Schedule a call" link="michele-vannucci-ijafga/30min" ns="30min" layout="month_view" />
 </BaseLayout>

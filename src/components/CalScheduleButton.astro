@@ -1,0 +1,98 @@
+---
+interface Props {
+  text?: string;
+  link?: string; // e.g. "michele-vannucci-ijafga/30min"
+  ns?: string; // e.g. "30min"
+  layout?: string; // e.g. "month_view"
+  hideEventTypeDetails?: boolean;
+  class?: string;
+}
+
+const {
+  text = "Schedule 30 min",
+  link = "michele-vannucci-ijafga/30min",
+  ns = "30min",
+  layout = "month_view",
+  hideEventTypeDetails = false,
+  class: className,
+} = Astro.props as Props;
+
+const dataCalConfig = {
+    hideEventTypeDetails: hideEventTypeDetails,
+    layout: layout
+}
+---
+
+
+  
+
+<button
+  type="button"
+  class={`cal-btn ${className ?? ""}`}
+  data-cal-link={link}
+  data-cal-namespace={ns}
+  data-cal-config={dataCalConfig}
+  data-cal-hide={String(hideEventTypeDetails)}
+>
+  {text}
+  
+</button>
+<script is:inline define:vars={{ns, link, dataCalConfig, hideEventTypeDetails}}>
+  (function (C, A, L) {
+    let p = function (a, ar) { a.q.push(ar); };
+    let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); };
+  })(window, "https://app.cal.com/embed/embed.js", "init");
+// Initialize Cal for each button using data attributes; add explicit click fallback
+  document.addEventListener('DOMContentLoaded', () => {
+    try {
+      Cal('init', ns, { origin: 'https://app.cal.com' });
+      Cal.ns[ns]('ui', dataCalConfig);
+    } catch (e) {
+      console.error('[CalScheduleButton] setup error', e);
+    }
+    const buttons = document.querySelectorAll('.cal-btn');
+    if (!buttons.length) {
+    console.warn('[CalScheduleButton] No buttons found');
+    return;
+    }
+    buttons.forEach((btn) => {
+        const el = btn;
+        if (!ns || !link) return;
+        el.addEventListener('click', () => {
+            try {
+            // throw error to test fallback
+            //throw new Error('Test error');
+            Cal.ns[ns]('open', link);
+
+            } catch (e) {
+                console.error('[CalScheduleButton] open failed, redirecting', e);
+                const url = `https://cal.com/${link}`;
+
+
+                window.open(url, '_blank');
+            }
+        });
+    });
+  });
+    
+
+</script>
+
+
+<style>
+  .cal-btn {
+    display: inline-block;
+    padding: 0.5rem 0.75rem;
+    background: #fff;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 0;
+    text-decoration: none;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .cal-btn:focus-visible {
+    outline: 2px solid var(--nav-outline, #000);
+    outline-offset: 2px;
+  }
+</style>

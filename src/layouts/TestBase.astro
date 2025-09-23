@@ -1,0 +1,146 @@
+---
+const { title = "Page", compact = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{title}</title>
+
+    <style>
+      /* ---------- Base layout ---------- */
+
+      @view-transition {
+        navigation: auto;
+        }
+      :root {
+        --pad-hero: 4rem;
+        --pad-compact: 0.75rem;
+        --title-hero: clamp(2rem, 6vw, 3.5rem);
+        --title-compact: 1.125rem;
+        --banner-hero: 1rem;
+        --banner-compact: 0.875rem;
+        --transition-dur: 220ms;
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        line-height: 1.45;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      nav a {
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.5rem;
+      }
+      nav a:hover { background: rgba(0,0,0,0.06); }
+
+      /* ---------- Header (hero vs compact) ---------- */
+      .site-header {
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 10;
+        display: grid;
+        gap: 0.5rem;
+        border-bottom: 1px solid rgba(0,0,0,0.08);
+        /* Important: different geometry on each page; the browser morphs it */
+        padding: var(--pad-hero) 1rem 1rem;
+        /* animate background color */
+      }
+      .site-header[data-compact="true"] {
+        padding: var(--pad-compact) 1rem;
+      }
+
+      .title {
+        font-weight: 700;
+        font-size: var(--title-hero);
+        letter-spacing: 0.3px;
+      }
+      .site-header[data-compact="true"] .title {
+        font-size: var(--title-compact);
+      }
+
+      .banner {
+        opacity: 0.9;
+        font-size: var(--banner-hero);
+      }
+      .site-header[data-compact="true"] .banner {
+        font-size: var(--banner-compact);
+      }
+
+      .nav-row {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+
+      /* ---------- View Transition tags (cross-document) ---------- */
+      /* Give matching pieces the same name on both pages */
+      .site-header    { view-transition-name: header; }
+      .title          { view-transition-name: title; }
+      .banner         { view-transition-name: banner; }
+      .nav-row        { view-transition-name: nav; }
+
+      /* ---------- Transition choreography ---------- */
+      /* Fade the old title & banner out; let new nav slide in a touch */
+      ::view-transition-old(title),
+      ::view-transition-old(banner) {
+        animation: fade-out var(--transition-dur) ease both;
+      }
+      ::view-transition-new(nav) {
+        animation: slide-up var(--transition-dur) ease both;
+      }
+
+      /* Optional: a slight scale/opacity polish for the incoming header */
+      ::view-transition-new(header) {
+        animation: pop-in var(--transition-dur) ease both;
+      }
+
+      @keyframes fade-out { to { opacity: 0 } }
+      @keyframes slide-up { from { transform: translateY(8px) } to { transform: translateY(0) } }
+      @keyframes pop-in   { from { opacity: 0.96; transform: scale(0.995) } to { opacity: 1; transform: scale(1) } }
+
+      /* Respect reduced motion: skip fancy stuff */
+      @media (prefers-reduced-motion: reduce) {
+        ::view-transition-group(*),
+        ::view-transition-image-pair(*),
+        ::view-transition-new(*),
+        ::view-transition-old(*) {
+          animation: none !important;
+        }
+      }
+
+      /* Content area */
+      main {
+        padding: 1.25rem;
+        max-width: 64rem;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header" data-compact={compact ? "true" : "false"}>
+      <h1 class="title">Michele Vannucci</h1>
+      <p class="banner">random page titles • ambient scroll • vibes ✦</p>
+
+      <nav class="nav-row" aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/test2">About</a>
+        <a href="https://example.com" rel="noopener">External</a>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>

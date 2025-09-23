@@ -1,0 +1,46 @@
+---
+import ProjectLayout from '../../../layouts/ProjectLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('links');
+
+  return entries.map(entry => {
+    const slug = entry.slug;
+    const isIndex = entry.id.endsWith('/index.md') || entry.id === 'index.md';
+    
+    
+    const segments = slug.split('/');
+    //this is used to get only direct children
+    const depth = segments.length;
+    const childItems = isIndex
+      ? entries.filter(e => e.slug.startsWith(slug + '/') && e.slug !== slug && e.slug.split('/').length === depth + 1)
+      : [];
+
+
+    // Build breadcrumb for this entry
+    const breadcrumb = segments.map((_, idx, arr) => {
+      const partial = arr.slice(0, idx + 1).join('/');
+      const segEntry = entries.find(e => e.slug === partial);
+      const label = (segEntry as any)?.data?.title || arr[idx];
+      return { partial, label, url: `/others/links/${partial}/`, current: idx === arr.length - 1 };
+    });
+    return {
+      params: { linkpage: slug },
+      props: { slug, mainEntry: entry, childItems, isIndex, breadcrumb }
+    };
+  });
+}
+const { slug, mainEntry, childItems, isIndex, breadcrumb } = Astro.props as any;
+---
+
+<ProjectLayout
+  collection="links"
+  slug={slug}
+  mainEntry={mainEntry}
+  childItems={childItems}
+  isIndex={isIndex}
+  breadcrumb={breadcrumb}
+/>
+
+

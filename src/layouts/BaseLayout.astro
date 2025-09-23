@@ -2,7 +2,7 @@
 import Header from '../components/base/Header.astro';
 import Footer from '../components/base/Footer.astro';
 import '../styles/global.css';
-const { pageTitle, bodyClass = '', headerIntro = null } = Astro.props;
+const { pageTitle, headerIntro = null } = Astro.props;
 
 
 ---
@@ -14,8 +14,10 @@ const { pageTitle, bodyClass = '', headerIntro = null } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
   </head>
-  <body class={bodyClass}>
+  <body >
+    
     <Header intro={headerIntro} />
+    
     <div class="page-header">
       {pageTitle && <h1 class="page-title">{pageTitle}</h1>}
     </div>
