@@ -1,0 +1,80 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+import type { ImageMetadata } from 'astro';
+import { Image } from "astro:assets";
+
+export async function getStaticPaths() {
+  const albums = await getCollection("albums");
+
+  const paths = Object.values(albums).map((album) => {
+    return {
+      params: {
+        id: album.id,
+      },
+      props: {
+        album,
+      },
+    };
+  });
+
+  return paths;
+}
+
+const { album } = Astro.props;
+
+// get paths with matching album folder name "/src/content/albums/[album-name]/*.{jpeg,jpg}"
+const albumId = album.id; // e.g. "japan"
+//print albumId to console
+console.log("Album ID:", albumId);
+
+// get the paths
+const imageModules = import.meta.glob<{ default: ImageMetadata }>(
+  `../../../content/albums/**/*.{jpeg,jpg,png}`,
+  { eager: true }
+);
+
+// filter the images that belong to the current album
+const filteredImageModules = Object.fromEntries(
+  Object.entries(imageModules).filter(([key]) => key.includes(`/albums/${albumId}/`))
+);
+
+const resolvedImages = Object.values(filteredImageModules).map((mod) => mod.default);
+
+const numberCaptionMap = new Map();
+if (album.data.captions) {
+  for (const item of album.data.captions) {
+    numberCaptionMap.set(item.imagenr, item.caption);
+  }
+}
+
+---
+
+<BaseLayout>
+  <div>
+    <h1>
+      {album.data.title}
+    </h1>
+    <p>
+    {album.data.description}
+  </p>
+
+  <div>
+    <!-- images with (optional caption per image) go here -->
+    {resolvedImages.map((image, index) => (
+      <div >
+        <Image src={image} alt={numberCaptionMap.get(index + 1) ?? `${album.data.title} #${index + 1}`} />
+        {numberCaptionMap.has(index + 1) && (
+          <p>{numberCaptionMap.get(index + 1)}</p>
+        )}
+      </div>
+    ))}
+  </div>
+
+  <p>
+    <a href="/others/gallery/">
+      Go back →
+    </a>
+  </p>
+</div>

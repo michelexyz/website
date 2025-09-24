@@ -1,7 +1,32 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 const pageTitle = "Gallery";
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+
+const albums = await getCollection("albums");
 ---
 <BaseLayout pageTitle={pageTitle}>
-    <p>This is a placeholder for gallery content.</p>
+<div>
+  <div>
+    {
+      albums.map((item) => (
+        <a href={`${item.id}`}>
+          <Image
+            src={item.data.cover}
+            alt={item.data.title}
+            format="avif"
+            width={720}
+            quality="mid"
+          />
+          <div>
+            <strong>{item.data.title}</strong>
+            <p>{item.data.description}</p>
+          </div>
+        </a>
+      ))
+    }
+  </div>
+</div>
+
 </BaseLayout>

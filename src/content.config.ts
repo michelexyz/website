@@ -38,4 +38,22 @@ const links = defineCollection({
   })
 });
 
-export const collections = { blog, projects, links };
+const albums = defineCollection({
+  type: "data",
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string().optional(),
+      cover: image(),
+      captions: z
+        .array(
+          z.object({
+            imagenr: z.number().int().positive(),
+            caption: z.string(),
+          })
+        )
+        .optional(),
+    }),
+});
+
+export const collections = { blog, projects, links, albums };
