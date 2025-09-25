@@ -60,7 +60,7 @@ if (album.data.captions) {
 
   <div class="album-stream">
     {resolvedImages.map((image, index) => (
-      <figure class={`photo ${index % 2 === 0 ? 'left' : 'right'}`} tabindex="0" role="button" aria-label="Open image" >
+      <figure class="photo" tabindex="0" role="button" aria-label="Open image" >
         <Image src={image} alt={numberCaptionMap.get(index + 1) ?? `${album.data.title} #${index + 1}`} />
         {numberCaptionMap.has(index + 1) && (
           <figcaption>{numberCaptionMap.get(index + 1)}</figcaption>
@@ -91,8 +91,6 @@ if (album.data.captions) {
 <style>
   .album-stream { display: flex; flex-direction: column; gap: var(--space-7); justify-content: center;}
   .photo { margin: 0; cursor: zoom-in; }
-  .photo.left { margin-right: auto; }
-  .photo.right { margin-left: auto; }
   .photo :global(img) { display: block; height: auto; max-width: min(720px, 100%); border: 2px solid #000; background: var(--card-bg); }
   figcaption { margin-top: var(--space-2); color: var(--text-muted); font-size: var(--font-2); }
 
@@ -105,13 +103,22 @@ if (album.data.captions) {
   }
   .lightbox[data-open="true"] { display: flex; }
   .lightbox-backdrop { position: absolute; inset: 0; }
-  .lightbox-content { position: relative; background: var(--card-bg); border: 2px solid #000; padding: var(--space-4); max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; }
+  .lightbox-content { position: relative; background: var(--card-bg); border: 2px solid #000; padding: var(--space-2); max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; }
   .lightbox-img { max-width: 95vw; max-height: 80vh; object-fit: contain; background: var(--card-bg); border: 2px solid #000; }
   .lightbox-caption { margin-top: var(--space-3); color: var(--text-muted); font-size: var(--font-2); }
   .lightbox-close { position: absolute; top: var(--space-2); right: var(--space-2); background: #fff; color: #000; border: 2px solid #000; border-radius: 0; padding: 0.25rem 0.5rem; cursor: pointer; }
   .lightbox-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: #fff; color: #000; border: 2px solid #000; border-radius: 0; padding: var(--space-3); cursor: pointer; z-index: 1001; }
   .lightbox-arrow.prev { left: var(--space-2); }
   .lightbox-arrow.next { right: var(--space-2); }
+
+  /* Fullscreen tuning
+  .lightbox:fullscreen { padding: 0; background: rgba(0,0,0,0.95); }
+  .lightbox:fullscreen .lightbox-content { background: transparent; border: 0; padding: 0; max-width: 100vw; max-height: 100vh; }
+  .lightbox:fullscreen .lightbox-img { max-width: 100vw; max-height: 100vh; }
+  Safari 
+  .lightbox:-webkit-full-screen { padding: 0; background: rgba(0,0,0,0.95); }
+  .lightbox:-webkit-full-screen .lightbox-content { background: transparent; border: 0; padding: 0; max-width: 100vw; max-height: 100vh; }
+  .lightbox:-webkit-full-screen .lightbox-img { max-width: 100vw; max-height: 100vh; } */
 </style>
 
 <script is:inline>
@@ -128,7 +135,7 @@ if (album.data.captions) {
   function showIndex(idx) {
     if (!overlay || !overlayImg) return;
     const max = figures.length - 1;
-    if (idx < 0) idx = max; else if (idx > max) idx = 0;
+    if (idx < 0) idx = 0; else if (idx > max) idx = max;// clamp to bounds
     const fig = figures[idx];
     if (!fig) return;
     const img = fig.querySelector('img');
@@ -152,6 +159,14 @@ if (album.data.captions) {
     overlay.setAttribute('data-open', 'true');
     overlay.setAttribute('aria-hidden', 'false');
     document.addEventListener('keydown', onKeyDown);
+    // Try to enter Fullscreen (requires user gesture)
+    try {
+      if (overlay.requestFullscreen) overlay.requestFullscreen();
+      // @ts-ignore - Safari prefix
+      else if (overlay.webkitRequestFullscreen) overlay.webkitRequestFullscreen();
+    } catch (err) {
+      console.debug('[Lightbox] fullscreen request failed or unsupported', err);
+    }
   }
 
   function closeLightbox() {
@@ -159,6 +174,16 @@ if (album.data.captions) {
     overlay.setAttribute('data-open', 'false');
     overlay.setAttribute('aria-hidden', 'true');
     document.removeEventListener('keydown', onKeyDown);
+    // Exit Fullscreen if active
+    try {
+      if (document.fullscreenElement) {
+        if (document.exitFullscreen) document.exitFullscreen();
+        // @ts-ignore - Safari prefix
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      }
+    } catch (err) {
+      console.debug('[Lightbox] fullscreen exit failed or unsupported', err);
+    }
   }
 
   function onKeyDown(e) {
