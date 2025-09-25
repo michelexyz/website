@@ -31,7 +31,7 @@ console.log("Album ID:", albumId);
 
 // get the paths
 const imageModules = import.meta.glob<{ default: ImageMetadata }>(
-  `../../../content/albums/**/*.{jpeg,jpg,png}`,
+  `../../../content/albums/*/*.{jpeg,jpg,png}`,
   { eager: true }
 );
 
@@ -51,25 +51,34 @@ if (album.data.captions) {
 
 ---
 
-<BaseLayout>
+<BaseLayout pageTitle={album.data.title}>
   <div>
-    <h1>
-      {album.data.title}
-    </h1>
+  
     <p>
     {album.data.description}
   </p>
 
-  <div>
-    <!-- images with (optional caption per image) go here -->
+  <div class="album-stream">
     {resolvedImages.map((image, index) => (
-      <div >
+      <figure class={`photo ${index % 2 === 0 ? 'left' : 'right'}`} tabindex="0" role="button" aria-label="Open image" >
         <Image src={image} alt={numberCaptionMap.get(index + 1) ?? `${album.data.title} #${index + 1}`} />
         {numberCaptionMap.has(index + 1) && (
-          <p>{numberCaptionMap.get(index + 1)}</p>
+          <figcaption>{numberCaptionMap.get(index + 1)}</figcaption>
         )}
-      </div>
+      </figure>
     ))}
+  </div>
+
+  <!-- Lightbox overlay -->
+  <div class="lightbox" data-open="false" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="lightbox-backdrop" data-close></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close" data-close>×</button>
+      <img class="lightbox-img" alt="" />
+      <p class="lightbox-caption"></p>
+    </div>
+    <button class="lightbox-arrow prev" aria-label="Previous image" data-prev>‹</button>
+    <button class="lightbox-arrow next" aria-label="Next image" data-next>›</button>
   </div>
 
   <p>
@@ -78,3 +87,105 @@ if (album.data.captions) {
     </a>
   </p>
 </div>
+
+<style>
+  .album-stream { display: flex; flex-direction: column; gap: var(--space-7); justify-content: center;}
+  .photo { margin: 0; cursor: zoom-in; }
+  .photo.left { margin-right: auto; }
+  .photo.right { margin-left: auto; }
+  .photo :global(img) { display: block; height: auto; max-width: min(720px, 100%); border: 2px solid #000; background: var(--card-bg); }
+  figcaption { margin-top: var(--space-2); color: var(--text-muted); font-size: var(--font-2); }
+
+  /* Lightbox styles */
+  .lightbox {
+    position: fixed; inset: 0; display: none; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.5);
+    padding: var(--space-4);
+    z-index: 1000;
+  }
+  .lightbox[data-open="true"] { display: flex; }
+  .lightbox-backdrop { position: absolute; inset: 0; }
+  .lightbox-content { position: relative; background: var(--card-bg); border: 2px solid #000; padding: var(--space-4); max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; }
+  .lightbox-img { max-width: 95vw; max-height: 80vh; object-fit: contain; background: var(--card-bg); border: 2px solid #000; }
+  .lightbox-caption { margin-top: var(--space-3); color: var(--text-muted); font-size: var(--font-2); }
+  .lightbox-close { position: absolute; top: var(--space-2); right: var(--space-2); background: #fff; color: #000; border: 2px solid #000; border-radius: 0; padding: 0.25rem 0.5rem; cursor: pointer; }
+  .lightbox-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: #fff; color: #000; border: 2px solid #000; border-radius: 0; padding: var(--space-3); cursor: pointer; z-index: 1001; }
+  .lightbox-arrow.prev { left: var(--space-2); }
+  .lightbox-arrow.next { right: var(--space-2); }
+</style>
+
+<script is:inline>
+  // Simple lightbox behavior
+  const overlay = document.querySelector('.lightbox');
+  const overlayImg = overlay?.querySelector('.lightbox-img');
+  const overlayCaption = overlay?.querySelector('.lightbox-caption');
+  const closeEls = overlay?.querySelectorAll('[data-close]');
+  const prevBtn = overlay?.querySelector('[data-prev]');
+  const nextBtn = overlay?.querySelector('[data-next]');
+  const figures = Array.from(document.querySelectorAll('.album-stream figure.photo'));
+  let currentIndex = -1;
+
+  function showIndex(idx) {
+    if (!overlay || !overlayImg) return;
+    const max = figures.length - 1;
+    if (idx < 0) idx = max; else if (idx > max) idx = 0;
+    const fig = figures[idx];
+    if (!fig) return;
+    const img = fig.querySelector('img');
+    const capEl = fig.querySelector('figcaption');
+    const captionText = capEl ? (capEl.textContent || '') : '';
+    if (img) {
+      overlayImg.setAttribute('src', img.getAttribute('src') || '');
+      const srcset = img.getAttribute('srcset');
+      if (srcset) overlayImg.setAttribute('srcset', srcset);
+      const sizes = img.getAttribute('sizes');
+      if (sizes) overlayImg.setAttribute('sizes', sizes);
+      overlayImg.setAttribute('alt', captionText);
+      if (overlayCaption) overlayCaption.textContent = captionText;
+      currentIndex = idx;
+    }
+  }
+
+  function openLightboxByIndex(idx) {
+    showIndex(idx);
+    if (!overlay) return;
+    overlay.setAttribute('data-open', 'true');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.addEventListener('keydown', onKeyDown);
+  }
+
+  function closeLightbox() {
+    if (!overlay) return;
+    overlay.setAttribute('data-open', 'false');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.removeEventListener('keydown', onKeyDown);
+  }
+
+  function onKeyDown(e) {
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') goNext();
+    if (e.key === 'ArrowLeft') goPrev();
+  }
+
+  function goNext() { if (figures.length) showIndex(currentIndex + 1); }
+  function goPrev() { if (figures.length) showIndex(currentIndex - 1); }
+
+  document.addEventListener('click', (e) => {
+    const target = e.target;
+    if (!target || typeof target.closest !== 'function') return;
+
+    const fig = target.closest('figure.photo');
+    if (fig) {
+      const idx = figures.findIndex((f) => f === fig);
+      if (idx !== -1) openLightboxByIndex(idx);
+      return;
+    }
+    if (target.matches?.('[data-close], .lightbox')) {
+      closeLightbox();
+      return;
+    }
+  });
+
+  if (nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); goNext(); });
+  if (prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); goPrev(); });
+</script>

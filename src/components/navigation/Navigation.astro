@@ -44,7 +44,13 @@ const items = [
  
   @media (max-width: 600px) {
     .link { padding: 0.40rem 0.5rem; font-size: 1.2rem; }
-  }
+
+    /* automatic gap increase to fill available space with grow */
+    .nav {
+      flex-grow: 1;
+      justify-content: space-around;
+    }
+
 
 </style>
 

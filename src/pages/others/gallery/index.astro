@@ -7,26 +7,44 @@ import { getCollection } from "astro:content";
 const albums = await getCollection("albums");
 ---
 <BaseLayout pageTitle={pageTitle}>
-<div>
-  <div>
-    {
-      albums.map((item) => (
-        <a href={`${item.id}`}>
-          <Image
-            src={item.data.cover}
-            alt={item.data.title}
-            format="avif"
-            width={720}
-            quality="mid"
-          />
-          <div>
-            <strong>{item.data.title}</strong>
-            <p>{item.data.description}</p>
-          </div>
-        </a>
-      ))
-    }
+  <div class="albums-grid">
+    {albums.map((item) => (
+      <a class="album-card" href={`${item.id}`}>
+        <Image
+          src={item.data.cover}
+          alt={item.data.title}
+          format="avif"
+          width={720}
+          quality="mid"
+        />
+        <div class="album-info">
+          <strong class="album-title">{item.data.title}</strong>
+          {item.data.description && <p class="album-desc">{item.data.description}</p>}
+        </div>
+      </a>
+    ))}
   </div>
-</div>
 
 </BaseLayout>
+
+<style>
+  .albums-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+  @media (min-width: 768px) {
+    .albums-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .album-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border: 2px solid #000;
+    background: var(--card-bg);
+  }
+  .album-info { padding: var(--space-4); }
+  .album-title { font-size: var(--font-5); }
+  .album-desc { margin: var(--space-2) 0 0; color: var(--text-muted); }
+  .album-card :global(img) { display: block; width: 100%; height: auto; }
+</style>

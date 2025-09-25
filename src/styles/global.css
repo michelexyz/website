@@ -13,8 +13,35 @@
   --chip-text-hover: #334155; /* slate-700 */
   /* nav tokens */
   --nav-hover-bg: #ff9776; /* previous nav hover color */
-  --nav-active-text: #e11d48; /* rose-600 */
+  --nav-active-text: #F53C3C; /* rose-600 */
   --nav-outline: #0f172a; /* near black in light */
+
+  /* spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-7: 2rem;
+  --space-8: 2.5rem;
+  --space-9: 3rem;
+
+  /* border size scale */
+  --border-1: 1px;
+  --border-2: 2px;
+  --border-mid: 4px;
+  --border-thick: 8px;
+
+  /* font size scale */
+  --font-1: 0.875rem;
+  --font-2: 1rem;
+  --font-3: 1.125rem;
+  --font-4: 1.25rem;
+  --font-5: 1.5rem;
+  --font-6: 2rem;
+  --font-7: 2.5rem;
+  --font-8: 3rem;
 }
 
 html {
@@ -58,7 +85,7 @@ html.dark {
   --chip-text-hover: #e2e8f0; /* slate-200 */
   /* nav tokens */
   --nav-hover-bg: #f87171; /* deep red for dark hover */
-  --nav-active-text: #7f1d1d; /* red-400 */
+  --nav-active-text: #F53C3C; /* red-400 */
   --nav-outline: #ffffff; /* white outline in dark */
 }
 
