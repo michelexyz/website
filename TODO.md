@@ -1,4 +1,10 @@
 - [X] change style
 - [X] reason about removing "home"
-- [ ] Organize better "marquee" in separate component
-- [ ] Make title detached form the "header" component?
+- [X] Organize better "marquee" in separate component
+- [ ] Make title detached from the "header" component?
+- [ ] Create "Contacts" card with boxy border in homepage
+- [ ] Add date to pictures from metadata
+- [ ] Fix project page
+- [ ] Write something in blog
+- [ ] Consisten buttons: download, "go back" button.
+- [ ] Add "read next"
