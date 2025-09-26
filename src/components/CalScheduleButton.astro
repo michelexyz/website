@@ -1,4 +1,6 @@
 ---
+import '../styles/buttons.css';
+
 interface Props {
   text?: string;
   link?: string; // e.g. "michele-vannucci-ijafga/30min"
@@ -6,6 +8,7 @@ interface Props {
   layout?: string; // e.g. "month_view"
   hideEventTypeDetails?: boolean;
   class?: string;
+  icon?: string; // optional icon filename, defaults to calendar.svg
 }
 
 const {
@@ -15,7 +18,9 @@ const {
   layout = "month_view",
   hideEventTypeDetails = false,
   class: className,
-} = Astro.props as Props;
+  icon = 'calendar.svg',
+  ...rest
+} = Astro.props as Props & Record<string, any>;
 
 const dataCalConfig = {
     hideEventTypeDetails: hideEventTypeDetails,
@@ -28,13 +33,15 @@ const dataCalConfig = {
 
 <button
   type="button"
-  class={`cal-btn ${className ?? ""}`}
+  class={`btn cal-btn ${className ?? ""}`}
   data-cal-link={link}
   data-cal-namespace={ns}
   data-cal-config={dataCalConfig}
   data-cal-hide={String(hideEventTypeDetails)}
+  {...rest}
 >
-  {text}
+  {icon ? (<img src={`/icons/${icon}`} alt="calendar" width="18" height="18" loading="lazy" />) : null}
+  <span class="label">{text}</span>
   
 </button>
 <script is:inline define:vars={{ns, link, dataCalConfig, hideEventTypeDetails}}>
@@ -80,19 +87,7 @@ const dataCalConfig = {
 
 
 <style>
-  .cal-btn {
-    display: inline-block;
-    padding: 0.5rem 0.75rem;
-    background: #fff;
-    color: #000;
-    border: 2px solid #000;
-    border-radius: 0;
-    text-decoration: none;
-    cursor: pointer;
-    line-height: 1;
-  }
-  .cal-btn:focus-visible {
-    outline: 2px solid var(--nav-outline, #000);
-    outline-offset: 2px;
-  }
+  /* No extra styles: uses shared .btn */
+  .cal-btn .label { font-size: var(--font-2); font-weight: 500; }
+  .cal-btn img { display: block; width: 18px; height: 18px; }
 </style>

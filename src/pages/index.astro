@@ -1,10 +1,11 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Greeting from '../components/Greeting.jsx';
+import Header from '../components/base/Header.astro';
+import Social from '../components/base/Social.astro';
+import CalScheduleButton from '../components/CalScheduleButton.astro';
+import '../styles/global.css';
 import { getCollection } from 'astro:content';
 
-const pageTitle = "";
-
+// Build the same intro marquee links used in BaseLayout's Header
 const [blogEntries, projectEntries, linkEntries] = await Promise.all([
   getCollection('blog'),
   getCollection('projects'),
@@ -12,18 +13,9 @@ const [blogEntries, projectEntries, linkEntries] = await Promise.all([
 ]);
 
 const contentLinks = [
-  ...blogEntries.map((entry) => ({
-    label: entry.data.title,
-    url: `/blog/${entry.id}/`
-  })),
-  ...projectEntries.map((entry) => ({
-    label: entry.data.title,
-    url: `/projects/${entry.slug}/`
-  })),
-  ...linkEntries.map((entry) => ({
-    label: entry.data.title,
-    url: `/links/${entry.slug}/`
-  }))
+  ...blogEntries.map((entry) => ({ label: entry.data.title, url: `/blog/${entry.id}/` })),
+  ...projectEntries.map((entry) => ({ label: entry.data.title, url: `/projects/${entry.slug}/` })),
+  ...linkEntries.map((entry) => ({ label: entry.data.title, url: `/links/${entry.slug}/` }))
 ];
 
 const navFallback = [
@@ -57,10 +49,86 @@ const headerIntro = marqueeItems.length
   ? { name: 'Michele Vannucci', links: marqueeItems }
   : null;
 ---
-<BaseLayout
-  pageTitle={pageTitle}
-  headerIntro={headerIntro}
->
-  <h1>Contacts:</h1>
 
-</BaseLayout>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Michele Vannucci</title>
+  </head>
+  <body>
+    <Header intro={headerIntro} />
+
+    <main>
+      <section class="contact-card" aria-labelledby="contacts-title">
+        <h2 id="contacts-title">Contacts</h2>
+        <div class="contact-row top">
+          <Social platform="michele.vannucci20@gmail.com" url="mailto:michele.vannucci20@gmail.com" icon="mail.svg" />
+          <CalScheduleButton text="Schedule 30 min" link="michele-vannucci-ijafga/30min" ns="30min" />
+        </div>
+
+        <div class="contact-row socials" aria-label="Social profiles">
+          <Social platform="Github" url="https://github.com/michelexyz" icon="github.svg" bgColor="#24292f" />
+          <Social platform="Linkedin" url="https://www.linkedin.com/in/michele-vannucci" icon="linkedin.svg" bgColor="#0a66c2" />
+          <Social platform="Orcid" url="https://orcid.org/0000-0002-8382-0360" icon="orcid.svg" bgColor="#A6CE39" />
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+
+<style>
+  main {
+    display: grid;
+    place-items: center;
+    min-height: 50vh;
+  }
+
+  .contact-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    width: 70%;
+    max-width: 48rem;
+    margin: var(--space-1) auto 0;
+    padding: var(--space-6);
+    background: var(--card-bg);
+    border: var(--border-2) solid #000;
+    border-radius: 0; /* blocky */
+    text-align: center;
+  }
+
+  .contact-card h2 {
+    margin: 0;
+    font-size: var(--font-6);
+  }
+
+  .contact-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-5);
+    flex-wrap: wrap;
+  }
+
+  .email-btn {
+    display: inline-block;
+    padding: 0.5rem 0.75rem;
+    background: #fff;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 0;
+    text-decoration: none;
+    line-height: 1;
+  }
+
+  .socials .social { /* tighten spacing a bit */
+    margin: 0.125rem 0;
+  }
+
+  @media (max-width: 600px) {
+    .contact-card { padding: var(--space-6); }
+  }
+</style>
+
