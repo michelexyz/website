@@ -2,9 +2,13 @@
 - [X] reason about removing "home"
 - [X] Organize better "marquee" in separate component
 - [ ] Make title detached from the "header" component?
-- [ ] Create "Contacts" card with boxy border in homepage
+- [X] Create "Contacts" card with boxy border in homepage
+- [ ] Improve the looks of the contacts card
 - [ ] Add date to pictures from metadata
 - [ ] Fix project page
 - [ ] Write something in blog
 - [ ] Consisten buttons: download, "go back" button.
-- [ ] Add "read next"
+- [ ] Add "read next" /link to pages in the same folder
+- [X] Change stile of the links
+- [ ] Fix tags style (black border)
+- [ ] Check colorconsistency

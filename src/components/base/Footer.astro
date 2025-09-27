@@ -5,13 +5,15 @@ import Social from './Social.astro';
 <style>
   footer {
     display: flex;
-    gap: 1rem;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
     margin-top: 2rem;
   }
+  
 </style>
 
 <footer>
-  <Social platform="github" url="https://github.com/michelexyz" icon="github.svg" bgColor="#24292f" />
-  <Social platform="linkedin" url="https://www.linkedin.com/in/michele-vannucci" icon="linkedin.svg" bgColor="#0a66c2" />
+  <Social platform="github" url="https://github.com/michelexyz" icon="github.svg" />
+  <Social platform="linkedin" url="https://www.linkedin.com/in/michele-vannucci" icon="linkedin.svg" />
   <Social platform='michele.vannucci20@gmail.com' url='mailto:michele.vannucci@gmail.com' icon='mail.svg' />
 </footer>

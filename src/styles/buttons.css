@@ -4,14 +4,17 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0.75rem;
-  background: #fff;
-  color: #000;
-  border: var(--border-2, 2px) solid #000;
+  background: var(--btn-bg, var(--white));
+  color: var(--btn-text, var(--black));
+  border: var(--border-2, 2px) solid var(--btn-border, var(--black));
   border-radius: 0; /* blocky */
   text-decoration: none;
   cursor: pointer;
   line-height: 1;
+
+
 }
+
 
 .btn:focus-visible {
   outline: 2px solid var(--nav-outline, #000);
@@ -26,4 +29,8 @@
 
 .btn--full {
   width: 100%;
+}
+
+.btn a {
+  color: inherit; 
 }

@@ -1,8 +1,10 @@
 :root {
-  --bg: #f1f5f9;
-  --text: #0f172a; /* slate-900 */
+  --white: #f1f5f9;
+  --black: #0f172a;
+  --bg: var(--white);
+  --text: var(--black); /* slate-900 */
   --text-muted: #475569; /* slate-600 */
-  --border: #e2e8f0; /* slate-200 */
+  --border: var(--black); /* slate-200 */
   --card-bg: #ffffff;
   --accent: #3b82f6; /* blue-500 */
   --accent-hover: #2563eb; /* blue-600 */
@@ -15,6 +17,11 @@
   --nav-hover-bg: #ff9776; /* previous nav hover color */
   --nav-active-text: #F53C3C; /* rose-600 */
   --nav-outline: #0f172a; /* near black in light */
+
+  /* links */
+  --link-to-page: var(--accent); /* blue-500 */
+  --link-to-page-hover: var(--accent-hover); /* blue-600 */
+  --link-visited: #6b21a8; /* purple-700 */
 
   /* spacing scale */
   --space-1: 0.25rem;
@@ -42,6 +49,11 @@
   --font-6: 2rem;
   --font-7: 2.5rem;
   --font-8: 3rem;
+
+  /* button tokens (light) */
+  --btn-bg: rgba(255, 255, 255, 0.85);
+  --btn-text: #000000;
+  --btn-border: #000000;
 }
 
 html {
@@ -67,6 +79,27 @@ h1 {
   font-size: 2.5rem;
 }
 
+p a {
+    color: var(--link-to-page);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  p a:hover,
+  p a:focus-visible {
+    color: var(--link-to-page-hover);
+}
+  p a:focus {
+    outline: 2px solid var(--link-to-page-hover);
+    outline-offset: 2px;
+  }
+  p a:visited {
+    color: var(--link-visited);
+  }
+  a .btn {
+    color: inherit; 
+  }
+
 /* nav styles handled inside Navigation component */
 
 /* dark mode styles */
@@ -75,7 +108,7 @@ html.dark {
   --bg: #222434;
   --text: #e5e7eb; /* slate-200 */
   --text-muted: #94a3b8; /* slate-400 */
-  --border: #334155; /* slate-700 */
+  --border: #e5e7eb; /* slate-200 */
   --card-bg: #0f172a; /* slate-900 */
   --accent: #60a5fa; /* blue-400 */
   --accent-hover: #3b82f6; /* blue-500 */
@@ -87,7 +120,15 @@ html.dark {
   --nav-hover-bg: #f87171; /* deep red for dark hover */
   --nav-active-text: #F53C3C; /* red-400 */
   --nav-outline: #ffffff; /* white outline in dark */
+
+  /* links */
+  --link-to-page: rgba(255, 255, 255, 0.9); /* blue-500 */
+  --link-to-page-hover: rgba(255, 255, 255, 1); /* blue-600 */
+  --link-visited: #bd97dc; /* purple-700 */
+
 }
+
+
 
 .dark .nav-links a {
   color: #fff;

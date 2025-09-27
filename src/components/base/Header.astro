@@ -14,6 +14,7 @@ type IntroData = {
 } | null;
 
 const intro = Astro.props.intro as IntroData;
+const displayIntro = intro ? true : false;
 const rawPath = Astro.url?.pathname ?? '/';
 const normalizedPath = rawPath === '/' ? '/' : rawPath.replace(/\/+$/, '');
 const primaryRoutes = new Set(['','/', '/about', '/projects', '/blog', '/tags', '/others']);
@@ -47,7 +48,7 @@ const navRowStyle = enableViewTransition ? 'view-transition-name: nav-row;' : un
 </header>
 
 
-<style>
+<style define:vars={{ logoDisplaySmall: displayIntro ? 'none' : 'block' }}>
   @view-transition {
       navigation: auto;
     }
@@ -81,6 +82,8 @@ const navRowStyle = enableViewTransition ? 'view-transition-name: nav-row;' : un
       justify-content: center;
       gap: 0rem;
     }
+    /* When intro is displayed, hide logo on small screens */
+    .site-header__logo { display: var(--logoDisplaySmall, block); }
     /* hide theme icon */
     .site-header__nav-row .theme-icon {
       display: none;

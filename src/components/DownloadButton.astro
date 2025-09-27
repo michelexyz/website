@@ -15,12 +15,26 @@ const mergedClass = className ?? cls ?? '';
 ---
 <a href={href} class={`btn btn--accent download-btn${mergedClass ? ' ' + mergedClass : ''}`} download={downloadAttr} {...rest}>
   {text}
-  <span aria-hidden="true" class="icon">⬇️</span>
+  <img src="/icons/download.svg" alt="" aria-hidden="true" class="icon" width="18" height="18" loading="lazy" />
   <span class="sr-only"> (downloads a file)</span>
   <style>
-    .download-btn { font-weight: 600; }
-    .download-btn:hover { filter: brightness(0.95); }
-    .icon { font-size: 0.95em; }
+    .download-btn {
+      font-weight: 600;
+      /* Slightly bigger than base .btn */
+      padding: 0.75rem 1.25rem;
+      font-size: var(--font-3);
+      /* Blocky shadow */
+      box-shadow: 4px 4px 0 #000;
+      transition: box-shadow 120ms ease, filter 120ms ease;
+    }
+    .download-btn:hover {
+      filter: brightness(0.97);
+      box-shadow: 6px 6px 0 #000;
+    }
+    .download-btn:active {
+      box-shadow: 2px 2px 0 #000;
+    }
+    .icon { display: block; width: 18px; height: 18px; }
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
   </style>
 </a>

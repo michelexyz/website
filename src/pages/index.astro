@@ -69,9 +69,9 @@ const headerIntro = marqueeItems.length
         </div>
 
         <div class="contact-row socials" aria-label="Social profiles">
-          <Social platform="Github" url="https://github.com/michelexyz" icon="github.svg" bgColor="#24292f" />
-          <Social platform="Linkedin" url="https://www.linkedin.com/in/michele-vannucci" icon="linkedin.svg" bgColor="#0a66c2" />
-          <Social platform="Orcid" url="https://orcid.org/0000-0002-8382-0360" icon="orcid.svg" bgColor="#A6CE39" />
+          <Social platform="Github" url="https://github.com/michelexyz" icon="github.svg" />
+          <Social platform="Linkedin" url="https://www.linkedin.com/in/michele-vannucci" icon="linkedin.svg" />
+          <Social platform="Orcid" url="https://orcid.org/0000-0002-8382-0360" icon="orcid.svg" />
         </div>
       </section>
     </main>
@@ -94,7 +94,7 @@ const headerIntro = marqueeItems.length
     margin: var(--space-1) auto 0;
     padding: var(--space-6);
     background: var(--card-bg);
-    border: var(--border-2) solid #000;
+    border: var(--border-2) solid var(--border);
     border-radius: 0; /* blocky */
     text-align: center;
   }
@@ -128,7 +128,10 @@ const headerIntro = marqueeItems.length
   }
 
   @media (max-width: 600px) {
-    .contact-card { padding: var(--space-6); }
+    .contact-card {
+      padding: var(--space-6);
+      inline-size: min(100%, 400px);
+    }
   }
 </style>
 
