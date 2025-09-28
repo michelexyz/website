@@ -91,7 +91,7 @@ if (album.data.captions) {
 <style>
   .album-stream { display: flex; flex-direction: column; gap: var(--space-7); justify-content: center;}
   .photo { margin: 0; cursor: zoom-in; }
-  .photo :global(img) { display: block; height: auto; max-width: min(720px, 100%); border: 2px solid #000; background: var(--card-bg); }
+  .photo :global(img) { display: block; height: auto; max-width: min(720px, 100%); border: 2px solid var(--border); background: var(--card-bg); }
   figcaption { margin-top: var(--space-2); color: var(--text-muted); font-size: var(--font-2); }
 
   /* Lightbox styles */
@@ -103,11 +103,11 @@ if (album.data.captions) {
   }
   .lightbox[data-open="true"] { display: flex; }
   .lightbox-backdrop { position: absolute; inset: 0; }
-  .lightbox-content { position: relative; background: var(--card-bg); border: 2px solid #000; padding: var(--space-2); max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; }
-  .lightbox-img { max-width: 95vw; max-height: 80vh; object-fit: contain; background: var(--card-bg); border: 2px solid #000; }
+  .lightbox-content { position: relative; background: var(--card-bg); border: 2px solid var(--border); padding: var(--space-2); max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; }
+  .lightbox-img { max-width: 95vw; max-height: 80vh; object-fit: contain; background: var(--card-bg); border: 2px solid var(--border); }
   .lightbox-caption { margin-top: var(--space-3); color: var(--text-muted); font-size: var(--font-2); }
-  .lightbox-close { position: absolute; top: var(--space-2); right: var(--space-2); background: #fff; color: #000; border: 2px solid #000; border-radius: 0; padding: 0.25rem 0.5rem; cursor: pointer; }
-  .lightbox-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: #fff; color: #000; border: 2px solid #000; border-radius: 0; padding: var(--space-3); cursor: pointer; z-index: 1001; }
+  .lightbox-close { position: absolute; top: var(--space-2); right: var(--space-2); background: var(--bg); color: var(--text); border: 2px solid var(--border); border-radius: 0; padding: 0.25rem 0.5rem; cursor: pointer; }
+  .lightbox-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: var(--bg); color: var(--text); border: 2px solid var(--border); border-radius: 0; padding: var(--space-3); cursor: pointer; z-index: 1001; }
   .lightbox-arrow.prev { left: var(--space-2); }
   .lightbox-arrow.next { right: var(--space-2); }
 

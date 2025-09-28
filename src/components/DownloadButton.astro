@@ -1,5 +1,6 @@
 ---
 import '../styles/buttons.css';
+import Download from '../icons/download.svg';
 
 interface Props {
   href: string;
@@ -12,10 +13,11 @@ interface Props {
 const { href, filename, text = 'Download', class: cls, className, ...rest } = Astro.props as Props & Record<string, any>;
 const downloadAttr = filename ?? '';
 const mergedClass = className ?? cls ?? '';
+const Icon = Download;
 ---
 <a href={href} class={`btn btn--accent download-btn${mergedClass ? ' ' + mergedClass : ''}`} download={downloadAttr} {...rest}>
   {text}
-  <img src="/icons/download.svg" alt="" aria-hidden="true" class="icon" width="18" height="18" loading="lazy" />
+  <Icon class="icon" aria-hidden="true" fill="var(--text)" stroke="var(--text)" />
   <span class="sr-only"> (downloads a file)</span>
   <style>
     .download-btn {
@@ -34,7 +36,8 @@ const mergedClass = className ?? cls ?? '';
     .download-btn:active {
       box-shadow: 2px 2px 0 #000;
     }
-    .icon { display: block; width: 18px; height: 18px; }
+  .icon { display: inline-flex; width: 18px; height: 18px; }
+
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
   </style>
 </a>

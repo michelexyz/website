@@ -51,9 +51,14 @@
   --font-8: 3rem;
 
   /* button tokens (light) */
-  --btn-bg: rgba(255, 255, 255, 0.85);
-  --btn-text: #000000;
-  --btn-border: #000000;
+  --btn-bg: var(--bg);
+  --btn-text: var(--text);
+  --btn-border: var(--border);
+
+  /* icon colors */
+  --linkedin-color: #0A66C2;
+  --github-color: #24292f;
+  --icon-color: var(--text);
 }
 
 html {
@@ -125,6 +130,9 @@ html.dark {
   --link-to-page: rgba(255, 255, 255, 0.9); /* blue-500 */
   --link-to-page-hover: rgba(255, 255, 255, 1); /* blue-600 */
   --link-visited: #bd97dc; /* purple-700 */
+
+  --linkedin-color: var(--icon-color);
+  --github-color: var(--icon-color);
 
 }
 

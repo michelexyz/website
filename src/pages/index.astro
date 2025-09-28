@@ -1,6 +1,10 @@
 ---
 import Header from '../components/base/Header.astro';
 import Social from '../components/base/Social.astro';
+import Github from '../icons/github.svg';
+import Linkedin from '../icons/linkedin.svg';
+import Mail from '../icons/mail.svg';
+import Orcid from '../icons/orcid.svg';
 import CalScheduleButton from '../components/CalScheduleButton.astro';
 import '../styles/global.css';
 import { getCollection } from 'astro:content';
@@ -64,14 +68,14 @@ const headerIntro = marqueeItems.length
       <section class="contact-card" aria-labelledby="contacts-title">
         <h2 id="contacts-title">Contacts</h2>
         <div class="contact-row top">
-          <Social platform="michele.vannucci20@gmail.com" url="mailto:michele.vannucci20@gmail.com" icon="mail.svg" />
+          <Social platform="michele.vannucci20@gmail.com" url="mailto:michele.vannucci20@gmail.com" Icon={Mail} />
           <CalScheduleButton text="Schedule 30 min" link="michele-vannucci-ijafga/30min" ns="30min" />
         </div>
 
         <div class="contact-row socials" aria-label="Social profiles">
-          <Social platform="Github" url="https://github.com/michelexyz" icon="github.svg" />
-          <Social platform="Linkedin" url="https://www.linkedin.com/in/michele-vannucci" icon="linkedin.svg" />
-          <Social platform="Orcid" url="https://orcid.org/0000-0002-8382-0360" icon="orcid.svg" />
+          <Social platform="Github" url="https://github.com/michelexyz" Icon={Github} />
+          <Social platform="Linkedin" url="https://www.linkedin.com/in/michele-vannucci" Icon={Linkedin} />
+          <Social platform="Orcid" url="https://orcid.org/0000-0002-8382-0360" Icon={Orcid} />
         </div>
       </section>
     </main>
@@ -94,8 +98,8 @@ const headerIntro = marqueeItems.length
     margin: var(--space-1) auto 0;
     padding: var(--space-6);
     background: var(--card-bg);
-    border: var(--border-2) solid var(--border);
-    border-radius: 0; /* blocky */
+    border: var(--border-2) dashed var(--border);
+    border-radius: 20px; /* blocky */
     text-align: center;
   }
 

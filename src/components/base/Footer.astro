@@ -1,5 +1,8 @@
 ---
 import Social from './Social.astro';
+import Github from '../../icons/github.svg';
+import Linkedin from '../../icons/linkedin.svg';
+import Mail from '../../icons/mail.svg';
 
 ---
 <style>
@@ -8,12 +11,15 @@ import Social from './Social.astro';
     flex-wrap: wrap;
     gap: 0.75rem 1rem;
     margin-top: 2rem;
+    border-top: var(--border-2) dashed var(--border);
+    padding-top: var(--space-4);
+    
   }
   
 </style>
 
 <footer>
-  <Social platform="github" url="https://github.com/michelexyz" icon="github.svg" />
-  <Social platform="linkedin" url="https://www.linkedin.com/in/michele-vannucci" icon="linkedin.svg" />
-  <Social platform='michele.vannucci20@gmail.com' url='mailto:michele.vannucci@gmail.com' icon='mail.svg' />
+  <Social platform="github" url="https://github.com/michelexyz" Icon={Github} />
+  <Social platform="linkedin" url="https://www.linkedin.com/in/michele-vannucci" Icon={Linkedin} />
+  <Social platform='michele.vannucci20@gmail.com' url='mailto:michele.vannucci@gmail.com' Icon={Mail} />
 </footer>

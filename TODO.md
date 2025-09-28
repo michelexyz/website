@@ -11,4 +11,5 @@
 - [ ] Add "read next" /link to pages in the same folder
 - [X] Change stile of the links
 - [ ] Fix tags style (black border)
-- [ ] Check colorconsistency
+- [ ] Check color consistency
+  - [ ] Make black and whites consistent(with a primary white/black as the brightest/darkest and a secondary one for both)

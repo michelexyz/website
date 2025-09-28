@@ -48,7 +48,11 @@ const navRowStyle = enableViewTransition ? 'view-transition-name: nav-row;' : un
 </header>
 
 
-<style define:vars={{ logoDisplaySmall: displayIntro ? 'none' : 'block' }}>
+<style define:vars={{
+  logoDisplaySmall: displayIntro ? 'none' : 'block',
+  headerSeparator: displayIntro ? 'none' : 'var(--border-2) dashed var(--border)',
+  headerPadding: displayIntro ? '0' : 'var(--space-4)'
+}}>
   @view-transition {
       navigation: auto;
     }
@@ -60,6 +64,9 @@ const navRowStyle = enableViewTransition ? 'view-transition-name: nav-row;' : un
     flex-direction: column;
     gap: 1.25rem;
     position: relative;
+    border-bottom: var(--headerSeparator, none);
+    padding-bottom: var(--headerPadding, 0);
+    border-color: var(--border);
   }
 
   .site-header__nav-row {

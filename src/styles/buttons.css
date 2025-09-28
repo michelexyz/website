@@ -4,9 +4,9 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0.75rem;
-  background: var(--btn-bg, var(--white));
-  color: var(--btn-text, var(--black));
-  border: var(--border-2, 2px) solid var(--btn-border, var(--black));
+  background: var(--btn-bg, var(--bg));
+  color: var(--btn-text, var(--text));
+  border: var(--border-2, 2px) solid var(--btn-border, var(--text));
   border-radius: 0; /* blocky */
   text-decoration: none;
   cursor: pointer;
