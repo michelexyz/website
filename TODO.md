@@ -8,7 +8,8 @@
 - [ ] Fix project page
 - [ ] Write something in blog
 - [ ] Consisten buttons: download, "go back" button.
-- [ ] Add "read next" /link to pages in the same folder
+- [X] Add "read next" /link to pages in the same folder
+  - Fix like to parent style
 - [X] Change stile of the links
 - [ ] Fix tags style (black border)
 - [ ] Check color consistency

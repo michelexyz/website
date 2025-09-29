@@ -3,6 +3,7 @@ import Banner from '../Banner.astro';
 import Navigation from '../navigation/Navigation.astro';
 import ThemeIcon from './ThemeIcon.astro';
 
+
 type IntroLink = {
   label: string;
   url: string;
@@ -33,7 +34,7 @@ const navRowStyle = enableViewTransition ? 'view-transition-name: nav-row;' : un
     <!-- logo -->
     <div class="site-header__logo">
       <a href="/" aria-label="Home">
-        <img src="/logo.png" alt="Michele Vannucci" width="48" height="48" />
+        <img src="/logo.svg" alt="Michele Vannucci" width="48" height="48" loading="eager" />
       </a>
     </div>
     

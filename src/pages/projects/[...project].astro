@@ -17,6 +17,8 @@ export async function getStaticPaths() {
       ? entries.filter(e => e.slug.startsWith(slug + '/') && e.slug !== slug && e.slug.split('/').length === depth + 1)
       : [];
 
+    const fatherSlug = segments.slice(0, -1).join('/');
+
 
     // Build breadcrumb for this entry
     const breadcrumb = segments.map((_, idx, arr) => {
@@ -25,13 +27,43 @@ export async function getStaticPaths() {
       const label = (segEntry as any)?.data?.title || arr[idx];
       return { partial, label, url: `/projects/${partial}/`, current: idx === arr.length - 1 };
     });
+    const parentPage = breadcrumb.length > 1 ? { title: breadcrumb[breadcrumb.length - 2].label, url: breadcrumb[breadcrumb.length - 2].url } : null;
+
+    // Compute siblings in original entries order (no sorting) and pick prev/next without mutating entry
+    let prev: { slug: string; title: string } | null = null;
+    let next: { slug: string; title: string } | null = null;
+    
+    const sisters = entries.filter(e => {
+      const eSegments = e.slug.split('/');
+      if (eSegments.length !== depth) return false;
+      // For top-level (no fatherSlug), any item with same depth is a sister; else require strict parent match
+      return fatherSlug === '' ? true : e.slug.startsWith(fatherSlug + '/');
+    });
+
+    const idx = sisters.findIndex(e => e.slug === slug);
+    if (idx !== -1) {
+      const prevSister = idx > 0 ? sisters[idx - 1] : null;
+      const nextSister = idx < sisters.length - 1 ? sisters[idx + 1] : null;
+      prev = prevSister ? { slug: prevSister.slug, title: (prevSister as any).data?.title } : null;
+      next = nextSister ? { slug: nextSister.slug, title: (nextSister as any).data?.title } : null;
+    }
+    console.log('[projects prev/next]', {
+      slug,
+      fatherSlug,
+      depth,
+      sisters: sisters.map(s => s.slug),
+      idx,
+      prev: prev?.slug ?? null,
+      next: next?.slug ?? null,
+    });
+    
     return {
       params: { project: slug },
-      props: { slug, mainEntry: entry, childItems, isIndex, breadcrumb }
+      props: { slug, mainEntry: entry, childItems, isIndex, breadcrumb, prev, next, parentPage: parentPage }
     };
   });
 }
-const { slug, mainEntry, childItems, isIndex, breadcrumb } = Astro.props as any;
+const { slug, mainEntry, childItems, isIndex, breadcrumb, prev, next, parentPage } = Astro.props as any;
 ---
 
 <ProjectLayout
@@ -41,4 +73,7 @@ const { slug, mainEntry, childItems, isIndex, breadcrumb } = Astro.props as any;
   childItems={childItems}
   isIndex={isIndex}
   breadcrumb={breadcrumb}
+  prev={prev}
+  next={next}
+  parentPage={parentPage}
 />

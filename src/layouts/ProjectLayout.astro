@@ -4,6 +4,7 @@ import ProjectPost from '../components/ProjectPost.astro';
 import Sections from '../components/feed/Sections.astro';
 import Tags from '../components/Tags.astro';
 import { getCollection, render } from 'astro:content';
+import PrevNext from '../components/navigation/PrevNext.astro';
 
 interface Props {
   collection: string;
@@ -13,9 +14,12 @@ interface Props {
   childItems?: any[];
   isIndex?: boolean;
   breadcrumb?: { partial: string; label: string; url: string; current: boolean }[];
+  prev?: { slug: string; title?: string } | null;
+  next?: { slug: string; title?: string } | null;
+  parentPage?: { title: string; url: string } | null;
 }
 
-const { collection, slug, order = 'pubDate', mainEntry: passedMain, childItems: passedChildren, isIndex = true, breadcrumb: passedBreadcrumb } = Astro.props as Props;
+const { collection, slug, order = 'pubDate', mainEntry: passedMain, childItems: passedChildren, isIndex = true, breadcrumb: passedBreadcrumb, prev, next, parentPage: parentPage } = Astro.props as Props;
 
 // Load collection entries only if we need to compute breadcrumb or find mainEntry/children not passed
 const needEntries = !passedMain || !passedChildren || !passedBreadcrumb;
@@ -103,4 +107,7 @@ const breadcrumb = passedBreadcrumb ?? (() => {
       />
     </>
   )}
+  
+  <PrevNext prev={prev} next={next} parentPage={parentPage} base={`/${collection}`} />
+  
 </BaseLayout>
