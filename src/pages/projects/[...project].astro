@@ -29,7 +29,7 @@ export async function getStaticPaths() {
     });
     const parentPage = breadcrumb.length > 1 ? { title: breadcrumb[breadcrumb.length - 2].label, url: breadcrumb[breadcrumb.length - 2].url } : null;
 
-    // Compute siblings in original entries order (no sorting) and pick prev/next without mutating entry
+  // Compute siblings and sort by filename (last segment) for deterministic navigation
     let prev: { slug: string; title: string } | null = null;
     let next: { slug: string; title: string } | null = null;
     
@@ -39,6 +39,10 @@ export async function getStaticPaths() {
       // For top-level (no fatherSlug), any item with same depth is a sister; else require strict parent match
       return fatherSlug === '' ? true : e.slug.startsWith(fatherSlug + '/');
     });
+
+    const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
+    const lastSeg = (s: string) => s.split('/').pop() || s;
+    sisters.sort((a, b) => collator.compare(lastSeg(a.slug), lastSeg(b.slug)));
 
     const idx = sisters.findIndex(e => e.slug === slug);
     if (idx !== -1) {
@@ -59,11 +63,11 @@ export async function getStaticPaths() {
     
     return {
       params: { project: slug },
-      props: { slug, mainEntry: entry, childItems, isIndex, breadcrumb, prev, next, parentPage: parentPage }
+      props: { slug, mainEntry: entry, childItems, isIndex, breadcrumb, prev, next, parentPage: parentPage, order: 'file' }
     };
   });
 }
-const { slug, mainEntry, childItems, isIndex, breadcrumb, prev, next, parentPage } = Astro.props as any;
+const { slug, mainEntry, childItems, isIndex, breadcrumb, prev, next, parentPage, order } = Astro.props as any;
 ---
 
 <ProjectLayout
@@ -76,4 +80,5 @@ const { slug, mainEntry, childItems, isIndex, breadcrumb, prev, next, parentPage
   prev={prev}
   next={next}
   parentPage={parentPage}
+  order={order}
 />

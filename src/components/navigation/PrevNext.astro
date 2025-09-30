@@ -1,5 +1,7 @@
 ---
 import '../../styles/buttons.css';
+import ChevronLeft from '../../icons/chevron-left.svg';
+import ChevronRight from '../../icons/chevron-right.svg';
 
 interface LinkInfo { slug: string; title?: string }
 interface Props {
@@ -14,17 +16,19 @@ const { prev = null, next = null, parentPage = null, base = '/projects' } = Astr
 
 {(prev || next) && (
   <nav class="prevnext" aria-label="Read next/previous">
-    {parentPage && <h2 class="heading">Read more from <a href={parentPage.url}>{parentPage.title}</a></h2>}
+    {parentPage && <h2 class="heading">Read more from <a href={parentPage.url}>{parentPage.title}</a>:</h2>}
     <div class="row">
       {prev ? (
         <a class="btn" href={`${base}/${prev.slug}/`} rel="prev" aria-label={`Previous: ${prev.title ?? prev.slug}`}>
-          ← {prev.title ?? prev.slug}
+          <ChevronLeft class="arrow" aria-hidden="true" fill={"var(--text)"} />
+          <span class="label">{prev.title ?? prev.slug}</span>
         </a>
       ) : <span />}
 
       {next ? (
         <a class="btn" href={`${base}/${next.slug}/`} rel="next" aria-label={`Next: ${next.title ?? next.slug}`}>
-          {next.title ?? next.slug} →
+          <span class="label">{next.title ?? next.slug}</span>
+          <ChevronRight class="arrow" aria-hidden="true" fill={"var(--text)"} />
         </a>
       ) : <span />}
     </div>
@@ -38,21 +42,25 @@ const { prev = null, next = null, parentPage = null, base = '/projects' } = Astr
     background: var(--card-bg);
     border: var(--border-2) dashed var(--border);
     border-radius: 20px; /* boxy */
+    /* add vertical spacing between heading and the buttons row only when both exist */
+    display: grid;
+    gap: var(--space-3);
+
   }
   .heading {
-    margin: 0 0 var(--space-4) 0;
+    margin: 0 0 0 0;
     font-size: var(--font-4);
   }
-  .row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--space-4);
+  .heading a {
+    text-decoration: underline;
+    color: var(--text);
   }
-  .row > span { width: 1px; visibility: hidden; }
-  .btn { font-weight: 600; }
+  .row { display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); flex-wrap: nowrap; }
+  .btn .arrow { display: inline-block; width: 1rem; height: 1rem; vertical-align: middle; }
+  .btn .label { white-space: nowrap; line-height: 1; }
   @media (max-width: 600px) {
-    .row { flex-direction: column; align-items: stretch; }
-    .btn { width: 100%; justify-content: center; }
+    /* Keep buttons side-by-side and show only arrows */
+    .btn { justify-content: center; min-width: 3rem; text-align: center; }
+    .btn .label { display: none; }
   }
 </style>

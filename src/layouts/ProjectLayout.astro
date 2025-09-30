@@ -9,7 +9,7 @@ import PrevNext from '../components/navigation/PrevNext.astro';
 interface Props {
   collection: string;
   slug: string;
-  order?: 'pubDate' | 'title';
+  order?: 'pubDate' | 'title' | 'file';
   mainEntry?: any;
   childItems?: any[];
   isIndex?: boolean;
@@ -28,6 +28,9 @@ const entries = needEntries ? await getCollection(collection as any) as any[] : 
 const mainEntry = passedMain ?? entries.find(e => e.slug === slug);
 let childItems = passedChildren ?? entries.filter(e => e.slug.startsWith(`${slug}/`));
 
+const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
+const lastSeg = (s: string) => s.split('/').pop() || s;
+
 if (order === 'pubDate') {
   childItems.sort((a, b) => {
     const ad = (a.data as any).pubDate?.getTime?.() || 0;
@@ -39,6 +42,8 @@ if (order === 'pubDate') {
     const at = ((a.data as any).title || '').localeCompare((b.data as any).title || '');
     return at;
   });
+} else if (order === 'file') {
+  childItems.sort((a, b) => collator.compare(lastSeg(a.slug), lastSeg(b.slug)));
 }
 
 let Content: any = null;
