@@ -31,8 +31,9 @@
   --space-5: 1.25rem;
   --space-6: 1.5rem;
   --space-7: 2rem;
-  --space-8: 2.5rem;
-  --space-9: 3rem;
+  --space-8: 4rem;
+  --space-9: 8rem;
+  --space-10: 10rem;
 
   /* border size scale */
   --border-1: 1px;

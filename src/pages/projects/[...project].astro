@@ -29,10 +29,11 @@ export async function getStaticPaths() {
     });
     const parentPage = breadcrumb.length > 1 ? { title: breadcrumb[breadcrumb.length - 2].label, url: breadcrumb[breadcrumb.length - 2].url } : null;
 
-  // Compute siblings and sort by filename (last segment) for deterministic navigation
+    // Compute siblings and sort by filename (last segment) for deterministic navigation
     let prev: { slug: string; title: string } | null = null;
     let next: { slug: string; title: string } | null = null;
     
+    //FINDING sisters (same depth, same parent)
     const sisters = entries.filter(e => {
       const eSegments = e.slug.split('/');
       if (eSegments.length !== depth) return false;
@@ -40,6 +41,7 @@ export async function getStaticPaths() {
       return fatherSlug === '' ? true : e.slug.startsWith(fatherSlug + '/');
     });
 
+    //SORTING sisters by filename (last segment)
     const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
     const lastSeg = (s: string) => s.split('/').pop() || s;
     sisters.sort((a, b) => collator.compare(lastSeg(a.slug), lastSeg(b.slug)));
@@ -51,15 +53,6 @@ export async function getStaticPaths() {
       prev = prevSister ? { slug: prevSister.slug, title: (prevSister as any).data?.title } : null;
       next = nextSister ? { slug: nextSister.slug, title: (nextSister as any).data?.title } : null;
     }
-    console.log('[projects prev/next]', {
-      slug,
-      fatherSlug,
-      depth,
-      sisters: sisters.map(s => s.slug),
-      idx,
-      prev: prev?.slug ?? null,
-      next: next?.slug ?? null,
-    });
     
     return {
       params: { project: slug },

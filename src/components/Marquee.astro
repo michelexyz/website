@@ -1,0 +1,62 @@
+---
+type MarqueeItem = { label: string; url: string };
+const { items = [] } = Astro.props as { items: MarqueeItem[] };
+const doubled = items.length ? [...items, ...items] : [];
+---
+{items.length > 0 && (
+  <div class="marquee" role="navigation" aria-label="Featured pages">
+    <div class="marquee__track">
+      {doubled.map((item, index) => (
+        <a class="marquee__item" href={item.url} data-index={index}>{item.label}</a>
+      ))}
+    </div>
+  </div>
+)}
+
+<style>
+  .marquee {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--card-bg);
+    padding: 0.6rem 0;
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
+  .marquee__track {
+    display: inline-flex;
+    gap: 1.5rem;
+    align-items: center;
+    animation: marquee-roll 24s linear infinite;
+  }
+  .marquee:hover .marquee__track { animation-play-state: paused; }
+  .marquee__item {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    padding: 0 0.75rem;
+    line-height: 1.4;
+    transition: color 160ms ease;
+  }
+  .marquee__item:focus,
+  .marquee__item:hover { color: var(--nav-hover-bg); }
+
+
+  .marquee {  inline-size: 100%;  padding: var(--space-1); }
+  @media (max-width: 600px) { .marquee { inline-size: 100%; } }
+  @keyframes marquee-roll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @media (max-width: 720px) {
+    .marquee__track { animation-duration: 30s; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__track { animation: none; }
+  }
+</style>

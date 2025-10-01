@@ -1,5 +1,6 @@
 ---
 import Header from '../components/base/Header.astro';
+import Marquee from '../components/Marquee.astro';
 import Social from '../components/base/Social.astro';
 import Github from '../icons/github.svg';
 import Linkedin from '../icons/linkedin.svg';
@@ -48,10 +49,7 @@ const shuffle = <T,>(items: T[]) => {
 };
 
 const marqueeItems = shuffle(uniqueCandidates).slice(0, Math.min(uniqueCandidates.length, 14));
-
-const headerIntro = marqueeItems.length
-  ? { name: 'Michele Vannucci', links: marqueeItems }
-  : null;
+const headerIntro = { name: 'Michele Vannucci' };
 ---
 
 <html lang="en">
@@ -79,14 +77,27 @@ const headerIntro = marqueeItems.length
         </div>
       </section>
     </main>
+    {marqueeItems.length > 0 && (
+      <footer class="home-marquee">
+        <Marquee items={marqueeItems} />
+      </footer>
+    )}
   </body>
 </html>
 
 <style>
+  html, body { block-size: 100%; }
+  body {
+    min-block-size: 100svh; /* use small viewport on mobile to avoid toolbar jumps */
+    display: flex;
+    flex-direction: column;
+    gap: clamp(var(--space-3), 4vh, var(--space-7));
+  }
+
   main {
     display: grid;
     place-items: center;
-    min-height: 50vh;
+    flex: 1 1 auto;  /* allow shrinking within flex container */
   }
 
   .contact-card {
@@ -95,7 +106,6 @@ const headerIntro = marqueeItems.length
     gap: var(--space-4);
     width: 70%;
     max-width: 48rem;
-    margin: var(--space-1) auto 0;
     padding: var(--space-6);
     background: var(--card-bg);
     border: var(--border-2) dashed var(--border);
@@ -116,17 +126,6 @@ const headerIntro = marqueeItems.length
     flex-wrap: wrap;
   }
 
-  .email-btn {
-    display: inline-block;
-    padding: 0.5rem 0.75rem;
-    background: #fff;
-    color: #000;
-    border: 2px solid #000;
-    border-radius: 0;
-    text-decoration: none;
-    line-height: 1;
-  }
-
   .socials .social { /* tighten spacing a bit */
     margin: 0.125rem 0;
   }
@@ -137,5 +136,7 @@ const headerIntro = marqueeItems.length
       inline-size: min(100%, 400px);
     }
   }
+
+
 </style>
 

@@ -2,7 +2,8 @@
 import BaseLayout from './BaseLayout.astro';
 import Tags from '../components/Tags.astro';
 import DateText from '../components/DateText.astro';
-const { frontmatter } = Astro.props;
+import PrevNext from '../components/navigation/PrevNext.astro';
+const { frontmatter, prev = null, next = null } = Astro.props as any;
 
 
 ---
@@ -14,4 +15,5 @@ const { frontmatter } = Astro.props;
   <Tags tags={frontmatter.tags} size="sm" />
 
   <slot />
+  <PrevNext prev={prev} next={next} base="/blog" />
 </BaseLayout>

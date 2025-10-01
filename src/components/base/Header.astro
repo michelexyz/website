@@ -4,16 +4,7 @@ import Navigation from '../navigation/Navigation.astro';
 import ThemeIcon from './ThemeIcon.astro';
 
 
-type IntroLink = {
-  label: string;
-  url: string;
-};
-
-type IntroData = {
-  name: string;
-  links: IntroLink[];
-} | null;
-
+type IntroData = { name: string; links?: {label: string; url: string}[] } | null;
 const intro = Astro.props.intro as IntroData;
 const displayIntro = intro ? true : false;
 const rawPath = Astro.url?.pathname ?? '/';
@@ -26,7 +17,7 @@ const navRowStyle = enableViewTransition ? 'view-transition-name: nav-row;' : un
 <header class="site-header" style={headerStyle}>
 
   <div class="site-header__banner">
-    {intro && <Banner intro={intro} />}
+  {intro && <Banner intro={{ name: intro.name }} />}
   </div>
   
 
@@ -84,6 +75,8 @@ const navRowStyle = enableViewTransition ? 'view-transition-name: nav-row;' : un
     justify-content: center;
   }
 
+  
+
 
   @media (max-width: 600px) {
     .site-header__nav-row {
@@ -100,5 +93,6 @@ const navRowStyle = enableViewTransition ? 'view-transition-name: nav-row;' : un
     .site-header__nav-row nav {
       flex: 1 1 100%;
     }
+    .site-header__banner .banner { inline-size: 100%; }
   }
 </style>

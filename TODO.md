@@ -5,12 +5,17 @@
 - [X] Create "Contacts" card with boxy border in homepage
 - [ ] Improve the looks of the contacts card
 - [ ] Add date to pictures from metadata
-- [ ] Fix project page
+- [ ] Add divider between sections and read next
 - [ ] Write something in blog
 - [ ] Consisten buttons: download, "go back" button.
 - [X] Add "read next" /link to pages in the same folder
   - Fix like to parent style
 - [X] Change stile of the links
-- [ ] Fix tags style (black border)
+- [X] Fix tags style (black border)
+- [ ] Fix tags pages cards
 - [ ] Check color consistency
   - [ ] Make black and whites consistent(with a primary white/black as the brightest/darkest and a secondary one for both)
+- [ ] Add background images/illustrations on projects pages
+- [ ] Add music
+- [ ] Add copy/privacy on the right of footer
+- [ ] Write about projects

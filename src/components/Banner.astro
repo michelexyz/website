@@ -1,30 +1,10 @@
 ---
-type IntroLink = {
-  label: string;
-  url: string;
-};
-
-type IntroData = {
-  name: string;
-  links: IntroLink[];
-} | null;
-
+type IntroData = { name: string } | null;
 const intro = Astro.props.intro as IntroData;
-const showMarquee = !!intro && Array.isArray(intro.links) && intro.links.length > 0;
-const marqueeItems = showMarquee ? [...intro.links, ...intro.links] : [];
 ---
 {intro && (
   <div class="banner" aria-live="polite">
     <div class="banner__name">{intro.name}</div>
-    {showMarquee && (
-      <div class="banner__marquee" role="navigation" aria-label="Featured pages">
-        <div class="banner__marquee-track">
-          {marqueeItems.map((item, index) => (
-            <a class="banner__marquee-item" href={item.url} data-index={index}>{item.label}</a>
-          ))}
-        </div>
-      </div>
-    )}
   </div>
 )}
 
@@ -47,67 +27,15 @@ const marqueeItems = showMarquee ? [...intro.links, ...intro.links] : [];
     color: var(--text);
   }
 
-  .banner__marquee {
-    display: inline-flex;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    background: var(--card-bg);
-    padding: 0.6rem 0;
-    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
-  }
-
-  .banner__marquee-track {
-    display: inline-flex;
-    gap: 1.5rem;
-    align-items: center;
-    animation: banner-roll 24s linear infinite;
-  }
-
-  .banner__marquee:hover .banner__marquee-track {
-    animation-play-state: paused;
-  }
-
-  .banner__marquee-item {
-    display: inline-flex;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-    font-size: 0.95rem;
-    white-space: nowrap;
-    padding: 0 0.75rem;
-    line-height: 1.4;
-    transition: color 160ms ease;
-  }
-
-  .banner__marquee-item:focus,
-  .banner__marquee-item:hover {
-    color: var(--nav-hover-bg);
-  }
-
-  @keyframes banner-roll {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
+  /* Constrain banner (title) to same width as nav (~70%) and add dashed separator */
+  .banner{ inline-size: 100%; margin: 0 auto; }
+  .banner{
+    border-bottom: var(--border-2) dashed var(--border);
+    margin-bottom: var(--space-2);
+  
   }
 
   @media (max-width: 720px) {
-    .banner__marquee-track {
-      animation-duration: 30s;
-    }
-    .banner__name {
-      letter-spacing: 0.12em;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .banner__marquee-track {
-      animation: none;
-    }
+    .banner__name { letter-spacing: 0.12em; }
   }
 </style>
