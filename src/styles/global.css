@@ -3,6 +3,7 @@
   --black: #0f172a;
   --bg: var(--white);
   --text: var(--black); /* slate-900 */
+  --subtitle: #2d2d2d;
   --text-muted: #475569; /* slate-600 */
   --border: var(--black); /* slate-200 */
   --card-bg: #ffffff;

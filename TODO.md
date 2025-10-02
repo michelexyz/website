@@ -19,3 +19,4 @@
 - [ ] Add music
 - [ ] Add copy/privacy on the right of footer
 - [ ] Write about projects
+- [ ] Consider separateing 
