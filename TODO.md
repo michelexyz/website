@@ -12,11 +12,13 @@
   - Fix like to parent style
 - [X] Change stile of the links
 - [X] Fix tags style (black border)
-- [ ] Fix tags pages cards
+- [X] Fix tags pages cards
 - [ ] Check color consistency
   - [ ] Make black and whites consistent(with a primary white/black as the brightest/darkest and a secondary one for both)
 - [ ] Add background images/illustrations on projects pages
 - [ ] Add music
 - [ ] Add copy/privacy on the right of footer
 - [ ] Write about projects
-- [ ] Consider separateing 
+- [ ] Make "cards" more consistent. (consider making one single component, or at least have the share the style)
+- [X] Add research interests
+- [ ] Make font size consistent (use variables in Global)

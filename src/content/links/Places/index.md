@@ -1,7 +1,7 @@
 ---
-title: "Interesting videos"
+title: "Places"
 description: "Fast sequences of frames"
 pubDate: 2025-09-18
-tags: ["ATAG"]
-icon: "🎥"
+tags: ["places"]
+icon: "📍"
 --- 

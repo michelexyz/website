@@ -1,0 +1,53 @@
+---
+import DateText from '../../components/DateText.astro';
+
+interface Props {
+  url: string;
+  title: string;
+  description?: string;
+  pubDate?: Date | string;
+  icon?: string; // emoji or path to svg
+}
+
+const { url, title, description, pubDate, icon } = Astro.props as Props;
+const isEmoji = typeof icon === 'string' && icon.trim().length > 0 && !icon.includes('/') && icon.length <= 4;
+---
+<style>
+  .card { 
+    display: grid; 
+    grid-template-columns: auto 1fr; /* text takes its width, icon uses remaining space */
+    align-items: center; 
+    column-gap: 0.6rem; 
+    border: 1px solid var(--border); 
+    border-radius: 0.5rem; 
+    padding: 0.6rem 0.7rem; 
+    background: var(--card-bg); 
+    text-decoration: none; 
+    color: inherit; 
+    min-height: 3.25rem; 
+  }
+  .card:hover { box-shadow: 0 1px 6px rgba(0,0,0,0.12); }
+  .icon-wrap { justify-self: stretch; display: grid; place-items: center; container-type: inline-size; }
+  /* Icon fills most of its column (about 80%) but within sensible bounds */
+  .icon { inline-size: clamp(1.6rem, 60cqw, 2.5rem); block-size: clamp(1.6rem, 60cqw, 2.5rem);  display: inline-grid; place-items: center; }
+  .icon { font-size: clamp(1.6rem, 60cqw, 2rem); line-height: 1; }
+  .icon img { inline-size: 100%; block-size: 100%; display: block; object-fit: contain; }
+  .title { font-weight: 700; font-size: 0.95rem; }
+  .meta { color: var(--text-muted); font-size: 0.8rem; }
+</style>
+
+<a class="card" href={url}>
+  <div>
+    <div class="title">{title}</div>
+    {(pubDate || description) && (
+      <div class="meta"><DateText value={pubDate} /></div>
+    )}
+  </div>
+  {icon && (
+    <div class="icon-wrap">
+      <span class="icon" aria-hidden="true">
+        {isEmoji ? icon : <img src={icon} alt="" loading="eager" />}
+      </span>
+    </div>
+  )}
+</a>
