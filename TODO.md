@@ -7,7 +7,7 @@
 - [ ] Add date to pictures from metadata
 - [ ] Add divider between sections and read next
 - [ ] Write something in blog
-- [ ] Consisten buttons: download, "go back" button.
+- [X] Consisten buttons: download..
 - [X] Add "read next" /link to pages in the same folder
   - Fix like to parent style
 - [X] Change stile of the links
@@ -22,3 +22,5 @@
 - [ ] Make "cards" more consistent. (consider making one single component, or at least have the share the style)
 - [X] Add research interests
 - [ ] Make font size consistent (use variables in Global)
+- [ ] "go back" button.
+- [ ] Add playlists (https://developer.spotify.com/documentation/web-api/reference/get-playlist-cover)
