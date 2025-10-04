@@ -1,0 +1,8 @@
+title: To Rome
+description: A song inspired by a trip to Rome.
+cover: ./torome/cover.jpg
+pubDate: 2025-09-01
+tracks:
+  - filename: torome1.mp3
+    title: On the train to Rome
+    caption: I cooked.

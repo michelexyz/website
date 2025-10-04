@@ -1,0 +1,65 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+
+export async function getStaticPaths() {
+  const eps = await getCollection('music');
+  return eps.map((ep) => ({ params: { ep: ep.id }, props: { ep } }));
+}
+
+const { ep } = Astro.props as any;
+const { data } = ep;
+
+// Resolve audio files by scanning all EP folders and then filter by this ep.id
+const allAudioModules = import.meta.glob<string>(
+  `../../../content/music/*/*.{mp3,ogg,flac,m4a,wav}`,
+  { eager: true, import: 'default' }
+);
+const filteredAudioModules = Object.fromEntries(
+  Object.entries(allAudioModules).filter(([key]) => key.includes(`/music/${ep.id}/`))
+);
+const audioByName = new Map<string, string>();
+for (const [path, url] of Object.entries(filteredAudioModules)) {
+  const name = path.split('/').pop() || path;
+  audioByName.set(name, url as string);
+}
+const resolvedTracks = (data.tracks || []).map((t: any) => {
+  const key = (t.filename || '').split('/').pop();
+  const url = key ? audioByName.get(key) : undefined;
+  return { ...t, url: url ?? t.filename };
+});
+---
+<BaseLayout pageTitle={data.title}>
+  <article class="ep">
+    <div class="cover">
+      <Image src={data.cover} alt={data.title} format="avif" width={960} quality="high" />
+    </div>
+    {data.description && <p class="desc">{data.description}</p>}
+    <h2>Tracks</h2>
+    <ol class="tracks">
+      {resolvedTracks.map((t: any) => (
+        <li class="track">
+          <details>
+            <summary>
+              <strong>{t.title}</strong>
+            </summary>
+            <audio controls preload="none" src={t.url} style="width: 100%"></audio>
+            {t.caption && <p class="caption">{t.caption}</p>}
+          </details>
+        </li>
+      ))}
+    </ol>
+  </article>
+</BaseLayout>
+
+<style>
+  .ep { display: grid; gap: var(--space-5); }
+  .cover :global(img) { display: block; width: 100%; height: auto; border: 2px solid var(--border); background: var(--card-bg); }
+  .desc { color: var(--text-muted); }
+  .tracks { padding-left: 1.25rem; }
+  .track { margin-bottom: var(--space-3); }
+  details { border: 1px dashed var(--border); border-radius: 12px; padding: var(--space-3); background: var(--card-bg); }
+  summary { cursor: pointer; }
+  .caption { margin-top: var(--space-2); color: var(--text-muted); }
+</style>

@@ -57,4 +57,24 @@ const albums = defineCollection({
     }),
 });
 
-export const collections = { blog, projects, links, albums };
+// Export all collections including music
+// Music EPs collection (data)
+const music = defineCollection({
+  type: 'data',
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string().optional(),
+      cover: z.union([image(), z.string()]),
+      pubDate: z.coerce.date().optional(),
+      tracks: z.array(
+        z.object({
+          filename: z.string(), // URL path to audio (recommend placing under /music in public)
+          title: z.string(),
+          caption: z.string().optional(),
+        })
+      ),
+    }),
+});
+
+export const collections = { blog, projects, links, albums, music };

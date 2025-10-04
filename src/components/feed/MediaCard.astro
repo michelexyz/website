@@ -1,0 +1,28 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+  href: string;
+  cover: any; // ImageMetadata from content collections
+  title: string;
+  description?: string;
+  imgWidth?: number;
+}
+
+const { href, cover, title, description, imgWidth = 720 } = Astro.props as Props;
+---
+<a class="media-card" href={href}>
+  <Image src={cover} alt={title} format="avif" width={imgWidth} quality="mid" />
+  <div class="info">
+    <strong class="title">{title}</strong>
+    {description && <p class="desc">{description}</p>}
+  </div>
+</a>
+
+<style>
+  .media-card { display: block; text-decoration: none; color: inherit; border: 2px solid var(--border); background: var(--card-bg); }
+  .media-card :global(img) { display: block; width: 100%; height: auto; }
+  .info { padding: var(--space-4); }
+  .title { font-size: var(--font-5); }
+  .desc { margin: var(--space-2) 0 0; color: var(--text-muted); }
+</style>

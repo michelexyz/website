@@ -1,9 +1,34 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import MediaCard from "../../../components/feed/MediaCard.astro";
 
 const pageTitle = "Music";
+const eps = (await getCollection('music')).sort((a, b) => {
+  const da = (a.data as any).pubDate?.getTime?.() || 0;
+  const db = (b.data as any).pubDate?.getTime?.() || 0;
+  return db - da; // newest first
+});
 ---
 <BaseLayout pageTitle={pageTitle}>
-  <p>What I'm listening to and playlists (coming soon).</p>
+  <section>
+    <h2>EPs</h2>
+    <div class="albums-grid">
+      {eps.map((item) => (
+        <MediaCard href={`${item.id}/`} cover={item.data.cover} title={item.data.title} description={item.data.description} />
+      ))}
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+  .albums-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+  @media (min-width: 768px) {
+    .albums-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
     
