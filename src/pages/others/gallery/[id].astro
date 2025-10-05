@@ -4,6 +4,7 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 
 import type { ImageMetadata } from 'astro';
 import { Image } from "astro:assets";
+import BackTo from "../../../components/navigation/BackTo.astro";
 
 export async function getStaticPaths() {
   const albums = await getCollection("albums");
@@ -82,9 +83,7 @@ if (album.data.captions) {
   </div>
 
   <p>
-    <a href="/others/gallery/">
-      Go back →
-    </a>
+    <BackTo href="/others/gallery/" label="Gallery" />
   </p>
 </div>
 

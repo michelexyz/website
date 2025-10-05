@@ -22,5 +22,10 @@
 - [ ] Make "cards" more consistent. (consider making one single component, or at least have the share the style)
 - [X] Add research interests
 - [ ] Make font size consistent (use variables in Global)
-- [ ] "go back" button.
+- [X] "go back" button.
 - [ ] Add playlists (https://developer.spotify.com/documentation/web-api/reference/get-playlist-cover)
+- [ ] Add soundcloud links to tracks
+- [ ] Think about centering "go back buttons"
+- [ ] Add more go back buttons in long pages where it takes time to go back to nav bar
+- [ ] Fix links pages(index doesn'ts show only top level) It would be nice to have compact cards instead of sections.
+- [ ] Add descriptions for project sections.
