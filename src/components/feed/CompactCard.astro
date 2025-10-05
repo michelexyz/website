@@ -15,7 +15,7 @@ const isEmoji = typeof icon === 'string' && icon.trim().length > 0 && !icon.incl
 <style>
   .card { 
     display: grid; 
-    grid-template-columns: auto 1fr; /* text takes its width, icon uses remaining space */
+    grid-template-columns: 4fr 1fr; /* left half text, right half icon */
     align-items: center; 
     column-gap: 0.6rem; 
     border: 1px solid var(--border); 
@@ -27,6 +27,7 @@ const isEmoji = typeof icon === 'string' && icon.trim().length > 0 && !icon.incl
     min-height: 3.25rem; 
   }
   .card:hover { box-shadow: 0 1px 6px rgba(0,0,0,0.12); }
+  .text { justify-self: start; text-align: left; }
   .icon-wrap { justify-self: stretch; display: grid; place-items: center; container-type: inline-size; }
   /* Icon fills most of its column (about 80%) but within sensible bounds */
   .icon { inline-size: clamp(1.6rem, 60cqw, 2.5rem); block-size: clamp(1.6rem, 60cqw, 2.5rem);  display: inline-grid; place-items: center; }
@@ -37,7 +38,7 @@ const isEmoji = typeof icon === 'string' && icon.trim().length > 0 && !icon.incl
 </style>
 
 <a class="card" href={url}>
-  <div>
+  <div class="text">
     <div class="title">{title}</div>
     {(pubDate || description) && (
       <div class="meta"><DateText value={pubDate} /></div>
