@@ -2,6 +2,7 @@
 import '../../styles/buttons.css';
 import ChevronLeft from '../../icons/chevron-left.svg';
 import ChevronRight from '../../icons/chevron-right.svg';
+import BackTo from './BackTo.astro';
 
 interface LinkInfo { slug: string; title?: string }
 interface Props {
@@ -14,26 +15,39 @@ const { prev = null, next = null, parentPage = null, base = '/projects' } = Astr
 
 ---
 
-{(prev || next) && (
-  <nav class="prevnext" aria-label="Read next/previous">
-    {parentPage && <h2 class="heading">Read more from <a href={parentPage.url}>{parentPage.title}</a>:</h2>}
-    <div class="row">
-      {prev ? (
-        <a class="btn" href={`${base}/${prev.slug}/`} rel="prev" aria-label={`Previous: ${prev.title ?? prev.slug}`}>
-          <ChevronLeft class="arrow" aria-hidden="true" fill={"var(--text)"} />
-          <span class="label">{prev.title ?? prev.slug}</span>
-        </a>
-      ) : <span />}
+{prev || next ? (
 
-      {next ? (
-        <a class="btn" href={`${base}/${next.slug}/`} rel="next" aria-label={`Next: ${next.title ?? next.slug}`}>
-          <span class="label">{next.title ?? next.slug}</span>
-          <ChevronRight class="arrow" aria-hidden="true" fill={"var(--text)"} />
-        </a>
-      ) : <span />}
-    </div>
+  <nav class="prevnext" aria-label="Read next/previous">
+  {parentPage && (
+    <h2 class="heading">
+      Read more from <a href={parentPage.url}>{parentPage.title}</a>:
+    </h2>
+  )}
+
+  <div class="row">
+    {prev ? (
+      <a class="btn" href={`${base}/${prev.slug}/`} rel="prev" aria-label={`Previous: ${prev.title ?? prev.slug}`}>
+        <ChevronLeft class="arrow" aria-hidden="true" fill={"var(--text)"} />
+        <span class="label">{prev.title ?? prev.slug}</span>
+      </a>
+    ) : (
+      <span />
+    )}
+
+    {next ? (
+      <a class="btn" href={`${base}/${next.slug}/`} rel="next" aria-label={`Next: ${next.title ?? next.slug}`}>
+        <span class="label">{next.title ?? next.slug}</span>
+        <ChevronRight class="arrow" aria-hidden="true" fill={"var(--text)"} />
+      </a>
+    ) : (
+      <span />
+    )}
+  </div>
   </nav>
+) : (
+  <BackTo href={parentPage?.url ?? '/'} label={parentPage?.title ?? 'Home'} />
 )}
+
 
 <style>
   .prevnext {

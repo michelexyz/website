@@ -27,6 +27,7 @@
 - [ ] Add soundcloud links to tracks
 - [ ] Think about centering "go back buttons"
 - [ ] Add more go back buttons in long pages where it takes time to go back to nav bar
-- [ ] Fix links pages(index doesn'ts show only top level) It would be nice to have compact cards instead of sections.
+- [X] Fix links pages(index doesn'ts show only top level) It would be nice to have compact cards instead of sections.
 - [ ] Add descriptions for project sections.
 - [ ] Check if RSS is still working/add link to rss
+- [ ] Fix go back button for links pages

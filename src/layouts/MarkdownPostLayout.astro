@@ -15,5 +15,5 @@ const { frontmatter, prev = null, next = null } = Astro.props as any;
   <Tags tags={frontmatter.tags} size="sm" />
 
   <slot />
-  <PrevNext prev={prev} next={next} base="/blog" />
+  <PrevNext prev={prev} next={next} base="/blog" parentPage={{ title: "Blog" , url: "/blog" }} />
 </BaseLayout>

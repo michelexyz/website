@@ -26,24 +26,27 @@ const needEntries = !passedMain || !passedChildren || !passedBreadcrumb;
 const entries = needEntries ? await getCollection(collection as any) as any[] : [];
 
 const mainEntry = passedMain ?? entries.find(e => e.slug === slug);
-let childItems = passedChildren ?? entries.filter(e => e.slug.startsWith(`${slug}/`));
+//let childItems = passedChildren ?? entries.filter(e => e.slug.startsWith(`${slug}/`));
+let childItems = passedChildren // passedChildren is already filtered in getStaticPaths to only direct children, this way the caller can also control wether to show them or not
 
 const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
 const lastSeg = (s: string) => s.split('/').pop() || s;
 
-if (order === 'pubDate') {
-  childItems.sort((a, b) => {
-    const ad = (a.data as any).pubDate?.getTime?.() || 0;
-    const bd = (b.data as any).pubDate?.getTime?.() || 0;
-    return ad - bd;
-  });
-} else if (order === 'title') {
-  childItems.sort((a, b) => {
-    const at = ((a.data as any).title || '').localeCompare((b.data as any).title || '');
-    return at;
-  });
-} else if (order === 'file') {
-  childItems.sort((a, b) => collator.compare(lastSeg(a.slug), lastSeg(b.slug)));
+if (childItems && order) {
+  if (order === 'pubDate') {
+    childItems.sort((a, b) => {
+      const ad = (a.data as any).pubDate?.getTime?.() || 0;
+      const bd = (b.data as any).pubDate?.getTime?.() || 0;
+      return ad - bd;
+    });
+  } else if (order === 'title') {
+    childItems.sort((a, b) => {
+      const at = ((a.data as any).title || '').localeCompare((b.data as any).title || '');
+      return at;
+    });
+  } else if (order === 'file') {
+    childItems.sort((a, b) => collator.compare(lastSeg(a.slug), lastSeg(b.slug)));
+  }
 }
 
 let Content: any = null;
@@ -98,7 +101,7 @@ const breadcrumb = passedBreadcrumb ?? (() => {
 
   <slot />
 
-  {isIndex && (
+  {isIndex && childItems && (
     <>
       <h2>Sections</h2>
       <Sections
