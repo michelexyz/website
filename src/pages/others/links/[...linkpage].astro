@@ -19,6 +19,7 @@ export async function getStaticPaths() {
       ? entries.filter(e => e.slug.startsWith(slug + '/') && e.slug !== slug && e.slug.split('/').length === depth + 1)
       : [];
 
+    
 
     // Build breadcrumb for this entry
     const breadcrumb = segments.map((_, idx, arr) => {
@@ -27,13 +28,18 @@ export async function getStaticPaths() {
       const label = (segEntry as any)?.data?.title || arr[idx];
       return { partial, label, url: `/others/links/${partial}/`, current: idx === arr.length - 1 };
     });
+
+    breadcrumb.unshift({ partial: 'others/links', label: 'links', url: '/others/links/', current: false });
+
+    const parentPage = breadcrumb.length > 1 ? { title: breadcrumb[breadcrumb.length - 2].label, url: breadcrumb[breadcrumb.length - 2].url } : null;
+    
     return {
       params: { linkpage: slug },
-      props: { slug, mainEntry: entry, childItems, isIndex, breadcrumb }
+      props: { slug, mainEntry: entry, childItems, isIndex, breadcrumb, parentPage }
     };
   });
 }
-const { slug, mainEntry, childItems, isIndex, breadcrumb } = Astro.props as any;
+const { slug, mainEntry, childItems, isIndex, breadcrumb, parentPage } = Astro.props as any;
 ---
 
 <ProjectLayout
@@ -42,6 +48,7 @@ const { slug, mainEntry, childItems, isIndex, breadcrumb } = Astro.props as any;
   mainEntry={mainEntry}
   isIndex={isIndex}
   breadcrumb={breadcrumb}
+  parentPage={parentPage}
 >
 <CompactGrid  minWidth="14rem"
   gap="0.85rem">

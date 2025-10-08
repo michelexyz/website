@@ -65,7 +65,7 @@ const music = defineCollection({
     z.object({
       title: z.string(),
       description: z.string().optional(),
-      cover: z.union([image(), z.string()]),
+      cover: image(),
       pubDate: z.coerce.date().optional(),
       tracks: z.array(
         z.object({

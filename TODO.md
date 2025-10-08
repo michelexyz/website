@@ -16,7 +16,7 @@
 - [ ] Check color consistency
   - [ ] Make black and whites consistent(with a primary white/black as the brightest/darkest and a secondary one for both)
 - [ ] Add background images/illustrations on projects pages
-- [ ] Add music
+- [X] Add music
 - [ ] Add copy/privacy on the right of footer
 - [ ] Write about projects
 - [ ] Make "cards" more consistent. (consider making one single component, or at least have the share the style)
@@ -30,4 +30,4 @@
 - [X] Fix links pages(index doesn'ts show only top level) It would be nice to have compact cards instead of sections.
 - [ ] Add descriptions for project sections.
 - [ ] Check if RSS is still working/add link to rss
-- [ ] Fix go back button for links pages
+- [X] Fix go back button for links pages

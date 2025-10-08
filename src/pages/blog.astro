@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import RssIcon from "../icons/rss.svg";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 import BlogFeed from "../components/feed/BlogFeed.astro";
@@ -17,11 +18,25 @@ const allPosts = (await getCollection("blog")).sort((a, b) => {
     padding: 0;
     margin: 0;
   }
+  .blog-intro { display: flex; align-items: flex-end; justify-content: space-between; gap: 0.75rem; margin: 0.5rem 0 1rem; }
+  .blog-intro .description { flex: 1; margin: 0; }
+  .rss-link { margin: 0; }
+  .rss-link .icon { width: 1rem; height: 1rem; }
+  .rss-link a { display: inline-flex; align-items: center; gap: 0.35rem; text-decoration: none; color: var(--text); }
+  .rss-link a:hover { text-decoration: underline; }
 </style>
 
 <html lang="en">
   <BaseLayout pageTitle={"Michele's Blog"}>
-    <p>This is where I will post about my journey learning Astro.</p>
+    <div class="blog-intro">
+      <p class="description">Words sequences Words sequences Words sequences Words sequences Words sequences Words sequences Words sequences Words sequencesWords sequences </p>
+      <p class="rss-link">
+        <a href="/rss.xml" aria-label="RSS feed">
+          <span>RSS</span>
+          <RssIcon class="icon" aria-hidden="true" />
+        </a>
+      </p>
+    </div>
     <BlogFeed
       items={allPosts.map((post: any) => ({
         url: `/blog/${post.id}/`,
