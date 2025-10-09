@@ -3,10 +3,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from "astro:content";
 import BlogFeed from '../../components/feed/BlogFeed.astro';
 import Sections from '../../components/feed/Sections.astro';
-import ProjectPost from '../../components/ProjectPost.astro';
+import SectionItem from '../../components/feed/SectionItem.astro';
 
 //importing button styles for "tag" heading
 import '../../styles/buttons.css';
+import BackTo from '../../components/navigation/BackTo.astro';
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("blog");
@@ -78,12 +79,14 @@ const topDesc = (top: string) => allProjects.find(p => p.slug === top)?.data?.de
     margin-top: var(--space-4);
   }
   .project-posts ~ .project-posts {
-    border-top: var(--border-1) solid var(--border); 
+    border-top: var(--border-1) solid var(--border);
+    padding-top: var(--space-2);
   }
   .blog-posts {
 
     /* border-bottom: var(--border-1) solid var(--border); */
     margin-top: var(--space-4);
+  
   }
 
   .tag {
@@ -106,6 +109,10 @@ const topDesc = (top: string) => allProjects.find(p => p.slug === top)?.data?.de
   h2 a {
     text-decoration: none;
     color: var(--text);
+  }
+  .backto {
+    margin-top: 2rem;
+    margin-bottom: -1rem;
   }
 
   
@@ -138,10 +145,13 @@ const topDesc = (top: string) => allProjects.find(p => p.slug === top)?.data?.de
             description: it.data.description
           }))} />
         ) : (
-          <ProjectPost url={`/projects/${top}/`} title={topTitle(top)} />
+          <SectionItem url={`/projects/${top}/`} title={topTitle(top)} />
         )}
       </div>
     ))}
   </>
   )}
+  <div class="backto">
+  <BackTo href="/tags/" label="Tags" />
+  </div>
 </BaseLayout>

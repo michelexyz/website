@@ -1,27 +1,25 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import ProjectPost from "../../components/ProjectPost.astro";
+import Sections from "../../components/feed/Sections.astro";
 
 const pageTitle = "My Projects";
 const allProjects = await getCollection("projects");
 const topLevel = allProjects.filter(p => !p.slug.includes('/'));
 ---
-<style>
-  .project-posts {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-</style>
+<style></style>
 
 <html lang="en">
   <BaseLayout pageTitle={pageTitle}>
     <p>Here are some of the projects I've worked on.</p>
-    <ul class="project-posts">
-      {topLevel.map((project) => (
-        <ProjectPost url={`/projects/${project.slug}/`} title={project.data.title} />
-      ))}
-    </ul>
+    <Sections
+      items={topLevel.map((project) => ({
+        url: `/projects/${project.slug}/`,
+        title: project.data.title,
+        description: project.data.description,
+        pubDate: project.data.pubDate,
+        coverSrc: project.data.cover?.src,
+      }))}
+    />
   </BaseLayout>
 </html>

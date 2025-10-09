@@ -6,6 +6,7 @@ interface Item {
   title: string;
   pubDate?: Date | string;
   description?: string;
+  coverSrc?: string;
 }
 
 interface Props {
@@ -29,7 +30,7 @@ const { items, emptyText = 'No items yet.', heading } = Astro.props as Props;
   {items.length > 0 ? (
     <ul class="list">
       {items.map((it) => (
-        <SectionItem url={it.url} title={it.title} pubDate={it.pubDate} description={it.description} />
+        <SectionItem url={it.url} title={it.title} pubDate={it.pubDate} description={it.description} coverSrc={it.coverSrc} />
       ))}
     </ul>
   ) : (
