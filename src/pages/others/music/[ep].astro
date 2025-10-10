@@ -30,6 +30,7 @@ const resolvedTracks = (data.tracks || []).map((t: any) => {
   const url = key ? audioByName.get(key) : undefined;
   return { ...t, url: url ?? t.filename };
 });
+const multipleTracks = resolvedTracks.length > 1;
 ---
 <BaseLayout pageTitle={data.title}>
   <article class="ep">
@@ -37,20 +38,36 @@ const resolvedTracks = (data.tracks || []).map((t: any) => {
       <Image src={data.cover} alt={data.title} format="avif" width={960} quality="high" />
     </div>
     {data.description && <p class="desc">{data.description}</p>}
-    <h2>Tracks</h2>
-    <ol class="tracks">
+    {multipleTracks ? (
+      <h2>Tracks</h2>
+      <ol class="tracks">
       {resolvedTracks.map((t: any) => (
         <li class="track">
-          <details>
-            <summary>
-              <strong>{t.title}</strong>
-            </summary>
-            <audio controls preload="none" src={t.url} style="width: 100%"></audio>
-            {t.caption && <p class="caption">{t.caption}</p>}
-          </details>
+            <details>
+              <summary>
+                <strong>{t.title}</strong>
+              </summary>
+              <audio controls preload="none" src={t.url} style="width: 100%"></audio>
+              {t.caption && <p class="caption">{t.caption}</p>}
+            </details>
+          
         </li>
       ))}
-    </ol>
+      </ol>)
+      : (
+        <div class="tracks">
+        {resolvedTracks.map((t: any) => (
+            <div class="track-expanded" role="group" aria-label={t.title}>
+              <summary>
+              <strong>{t.title}</strong>
+              </summary>
+              <audio controls preload="none" src={t.url} style="width: 100%"></audio>
+              {t.caption && <p class="caption">{t.caption}</p>}
+            </div>
+          ))}
+        </div>
+      )}
+
   </article>
   <p>
     <BackTo href="/others/music/" label="Music" />
@@ -58,12 +75,12 @@ const resolvedTracks = (data.tracks || []).map((t: any) => {
 </BaseLayout>
 
 <style>
-  .ep { display: grid; gap: var(--space-5); }
+  .ep { display: grid; gap: var(--space-3); margin-bottom: var(--space-7); }
   .cover :global(img) { display: block; width: 100%; height: auto; border: 2px solid var(--border); background: var(--card-bg); }
   .desc { color: var(--text-muted); }
   .tracks { padding-left: 1.25rem; }
   .track { margin-bottom: var(--space-3); }
-  details { border: 1px dashed var(--border); border-radius: 12px; padding: var(--space-3); background: var(--card-bg); }
-  summary { cursor: pointer; }
+  details, .track-expanded { border: 1px dashed var(--border); border-radius: 12px; padding: var(--space-3); background: var(--card-bg); }
+  summary { cursor: pointer; margin-bottom: var(--space-3);}
   .caption { margin-top: var(--space-2); color: var(--text-muted); }
 </style>
