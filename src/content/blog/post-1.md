@@ -21,4 +21,8 @@ Welcome to my _new blog_ about learning Astro! Here, I will share my learning jo
 
 ## What's next
 
+$$
+\mathbb{E}_\xi^\pi[S] = \sum_\nu w_\nu P_\nu^\pi 
+$$
+
 I will finish the Astro tutorial, and then keep adding more posts. Watch this space for more to come.
