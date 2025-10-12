@@ -26,6 +26,7 @@ const projects = defineCollection({
       pubDate: z.coerce.date(),
       tags: z.array(z.string()).optional(),
       cover: image().optional(),
+      bibliography: z.string().optional(),
     }),
 });
 

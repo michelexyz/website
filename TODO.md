@@ -32,3 +32,4 @@
 - [X] add link to rss
 - [X] Fix go back button for links pages
 - [ ] Check if RSS actually works
+- [ ] Find out why citations don't work

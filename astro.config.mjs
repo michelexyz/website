@@ -5,6 +5,9 @@ import cloudflare from '@astrojs/cloudflare';
 
 import preact from '@astrojs/preact';
 
+import remarkGfm from 'remark-gfm';
+import rehypeCitation from 'rehype-citation';
+
 // https://astro.build/config
 export default defineConfig({
   // can add the server option here if needed to render on server side
@@ -17,5 +20,9 @@ export default defineConfig({
 
   prefetch: {// enable link prefetching (need to add this manually as <a href="/about" data-astro-prefetch>)
     prefetchAll: true
+  },
+  markdown: {
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [],
   },
 });
