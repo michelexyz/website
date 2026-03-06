@@ -162,3 +162,5 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
+#I don't want to publish assets yet
+public/

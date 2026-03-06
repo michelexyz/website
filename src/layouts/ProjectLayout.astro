@@ -1,10 +1,11 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import 'katex/dist/katex.min.css';
 import Sections from '../components/feed/Sections.astro';
 import Tags from '../components/Tags.astro';
 import { getCollection, render } from 'astro:content';
-import { processCitationsMarkdown } from '../lib/citations';
 import PrevNext from '../components/navigation/PrevNext.astro';
+import DownloadButton from '../components/DownloadButton.astro';
 
 interface Props {
   collection: string;
@@ -51,37 +52,10 @@ if (childItems && order) {
 
 let Content: any = null;
 let title = slug;
-let processedHtml: string | null = null;
-let referencesHtml: string = '';
 if (mainEntry) {
   const rendered = await render(mainEntry as any);
   Content = rendered.Content;
   title = (mainEntry as any).data?.title || slug;
-  // Process citations if a bibliography is provided in frontmatter
-  const bibRel = (mainEntry as any).data?.bibliography as string | undefined;
-  if (bibRel) {
-    // Load bib file contents using a glob rooted at src/content
-    const bibModules = import.meta.glob('../content/**/*.{bib,bibtex,ris}', { eager: true, as: 'raw' });
-    // Normalize possible leading ./ in frontmatter
-    const candidateKeys = [
-      `../content/${bibRel.replace(/^\.\/?/, '')}`,
-      // Also try relative to current file folder if author provided ./bibliography.bib
-      `../content/${(mainEntry.id || '').replace(/\/[^/]+$/, '/')}${bibRel.replace(/^\.\/?/, '')}`
-    ];
-    let bibText: string | undefined;
-    for (const k of candidateKeys) {
-      if (k in bibModules) { bibText = bibModules[k] as unknown as string; break; }
-    }
-    if (bibText) {
-      // We need HTML string; render() provides a component, so get HTML by rendering markdown source instead of component
-      // Use the raw body from entry (markdown content before Astro renders)
-      const rawBody = (mainEntry as any).body as string;
-      const { markdown, referencesHtml: refs } = processCitationsMarkdown(rawBody, bibText);
-      referencesHtml = refs;
-      // Replace Content with processed HTML by using a minimal wrapper component
-      processedHtml = markdown;
-    }
-  }
 }
 
 // Use passed breadcrumb if present, else compute (fallback for other collections)
@@ -96,7 +70,7 @@ const breadcrumb = passedBreadcrumb ?? (() => {
 })();
 ---
 <style>
-  .lead { margin: 0.5rem 0 1rem; color: #475569; }
+  .lead { margin: 0.5rem 0 1rem; }
   .sub-items { list-style: none; padding: 0; margin: 0; }
   .no-items { color: #64748b; font-style: italic; }
   h2 { margin-top: 1.25rem; }
@@ -106,9 +80,6 @@ const breadcrumb = passedBreadcrumb ?? (() => {
   .breadcrumb a { text-decoration: none; color: var(--accent); }
   .breadcrumb a:hover { text-decoration: underline; }
   .breadcrumb .sep { opacity: 0.6; color: var(--text-muted); }
-  .references { margin-top: 1.5rem; }
-  .references ol { padding-left: 1.25rem; }
-  .references li { margin: 0.25rem 0; }
 </style>
 
 <BaseLayout pageTitle={title}>
@@ -123,14 +94,13 @@ const breadcrumb = passedBreadcrumb ?? (() => {
     </nav>
   )}
   {mainEntry && <Tags tags={(mainEntry as any).data?.tags} />}
-  {(processedHtml || Content) && (
+  {Content && (
     <section class="lead">
-      {processedHtml ? (
-        <Fragment set:html={processedHtml} />
-      ) : (
-        <Content />
-      )}
+      <Content />
     </section>
+  )}
+  {(mainEntry as any)?.data?.download && (
+    <DownloadButton href={(mainEntry as any).data.download} text="Download PDF" />
   )}
 
   <slot />
@@ -148,12 +118,6 @@ const breadcrumb = passedBreadcrumb ?? (() => {
         emptyText="No sections yet."
       />
     </>
-  )}
-  {referencesHtml && (
-    <section class="references">
-      <h2>References</h2>
-      <Fragment set:html={referencesHtml} />
-    </section>
   )}
   
   <PrevNext prev={prev} next={next} parentPage={parentPage} base={`/${collection}`} />
