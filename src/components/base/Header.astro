@@ -2,6 +2,7 @@
 import Banner from '../Banner.astro';
 import Navigation from '../navigation/Navigation.astro';
 import ThemeIcon from './ThemeIcon.astro';
+import XiLogo from '../../icons/xi_logo.svg';
 
 
 type IntroData = { name: string; links?: {label: string; url: string}[] } | null;
@@ -25,7 +26,7 @@ const navRowStyle = enableViewTransition ? 'view-transition-name: nav-row;' : un
     <!-- logo -->
     <div class="site-header__logo">
       <a href="/" aria-label="Home">
-        <img src="/logo.svg" alt="Michele Vannucci" width="48" height="48" loading="eager" />
+        <XiLogo width="70" height="70" aria-label="Michele Vannucci" />
       </a>
     </div>
     

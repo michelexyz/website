@@ -5,7 +5,9 @@ import Sections from "../../components/feed/Sections.astro";
 
 const pageTitle = "My Projects";
 const allProjects = await getCollection("projects");
-const topLevel = allProjects.filter(p => !p.slug.includes('/'));
+const topLevel = allProjects
+  .filter(p => !p.slug.includes('/'))
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 ---
 <style></style>
 
