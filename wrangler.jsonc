@@ -1,0 +1,5 @@
+{
+  "name": "website", // replace with your Cloudflare Pages project name
+  "compatibility_date": "2026-03-07",
+  "pages_build_output_dir": "./dist"
+}

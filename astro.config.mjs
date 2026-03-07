@@ -16,7 +16,7 @@ export default defineConfig({
   adapter: cloudflare(),
 
   // replace with your actual site URL
-  site: 'https://website-c1d.pages.dev/',
+  site: 'https://michelevannucci.me/',
 
   integrations: [preact()],
 
