@@ -1,6 +1,6 @@
 ---
 title: "Master's Projects"
-description: "Other notable projects I completed during my master's."
+description: "Other notable projects I completed during my Master's."
 author: 'Michele Vannucci'
 pubDate: 2025-01-29
 cover: ./connect4.png

@@ -80,6 +80,7 @@ const breadcrumb = passedBreadcrumb ?? (() => {
   .breadcrumb a { text-decoration: none; color: var(--accent); }
   .breadcrumb a:hover { text-decoration: underline; }
   .breadcrumb .sep { opacity: 0.6; color: var(--text-muted); }
+  .download-wrap { display: block; margin-bottom: var(--space-5); }
 </style>
 
 <BaseLayout pageTitle={title}>
@@ -100,7 +101,9 @@ const breadcrumb = passedBreadcrumb ?? (() => {
     </section>
   )}
   {(mainEntry as any)?.data?.download && (
-    <DownloadButton href={(mainEntry as any).data.download} text="Download PDF" />
+    <div class="download-wrap">
+      <DownloadButton href={(mainEntry as any).data.download} text="Download PDF" />
+    </div>
   )}
 
   <slot />
@@ -113,7 +116,8 @@ const breadcrumb = passedBreadcrumb ?? (() => {
           url: `/${collection}/${item.slug}/`,
           title: item.data?.title,
           pubDate: item.data?.pubDate,
-          description: item.data?.description
+          description: item.data?.description,
+          cover: item.data?.cover
         }))}
         emptyText="No sections yet."
       />
