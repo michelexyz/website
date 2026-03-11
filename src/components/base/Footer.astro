@@ -13,7 +13,12 @@ import Mail from '../../icons/mail.svg';
     margin-top: 2rem;
     border-top: var(--border-2) dashed var(--border);
     padding-top: var(--space-4);
-    
+  }
+  .copyright {
+    width: 100%;
+    font-size: 0.75rem;
+    opacity: 0.6;
+    margin-top: 0.5rem;
   }
   
 </style>
@@ -22,4 +27,9 @@ import Mail from '../../icons/mail.svg';
   <Social platform="github" url="https://github.com/michelexyz" Icon={Github} />
   <Social platform="linkedin" url="https://www.linkedin.com/in/michele-vannucci" Icon={Linkedin} />
   <Social platform='michele.vannucci20@gmail.com' url='mailto:michele.vannucci@gmail.com' Icon={Mail} />
+  <p class="copyright">
+    &copy; {new Date().getFullYear()} Michele Vannucci.
+    Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a>.
+    <a href="/privacy">Privacy</a>.
+  </p>
 </footer>

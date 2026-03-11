@@ -62,3 +62,9 @@ This project uses Astro Content Collections to manage projects under `src/conten
 	- `src/components/ProjectPage.astro` — component that renders a project page (lead from `index.md` + sections list).
 
 Tip: add `pubDate` and `tags` to your Markdown frontmatter to enable sorting and filtering.
+
+## License
+
+Content on this website (text, images, PDFs) is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). You are free to share and adapt the material for non-commercial purposes, with attribution and under the same license.
+
+Use of this content for AI/ML model training is not permitted without explicit written permission.

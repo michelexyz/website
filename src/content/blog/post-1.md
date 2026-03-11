@@ -6,10 +6,10 @@ author: 'Astro Learner'
 image:
     url: 'https://docs.astro.build/assets/rose.webp'
     alt: 'The Astro logo on a dark background with a pink glow.'
-tags: ["astro", "blogging", "learning in public", "intro"]
+tags: ["astro"]
 ---
 
-Welcome to my _new blog_ about learning Astro! Here, I will share my learning journey as I build a new website.
+Welcome to my placeholder _new blog_! Here, I will share my learning journey.
 
 ## What I've accomplished
 
@@ -20,9 +20,5 @@ Welcome to my _new blog_ about learning Astro! Here, I will share my learning jo
 3. **Making Blog Posts**: This is my first blog post! I now have Astro pages and Markdown posts!
 
 ## What's next
-
-$$
-\mathbb{E}_\xi^\pi[S] = \sum_\nu w_\nu P_\nu^\pi 
-$$
 
 I will finish the Astro tutorial, and then keep adding more posts. Watch this space for more to come.

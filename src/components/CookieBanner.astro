@@ -1,0 +1,61 @@
+---
+---
+
+<div id="cookie-banner" class="cookie-banner" style="display:none;">
+  <p>
+    This site uses third-party services (Cloudflare, Cal.com, Spotify) that may set cookies.
+    No first-party tracking is used. See the <a href="/privacy">Privacy Policy</a>.
+  </p>
+  <div class="cookie-actions">
+    <button id="cookie-accept" class="cookie-btn">Got it</button>
+  </div>
+</div>
+
+<script>
+  if (!localStorage.getItem('cookie-consent')) {
+    const banner = document.getElementById('cookie-banner');
+    if (banner) banner.style.display = 'flex';
+  }
+  document.getElementById('cookie-accept')?.addEventListener('click', () => {
+    localStorage.setItem('cookie-consent', 'accepted');
+    const banner = document.getElementById('cookie-banner');
+    if (banner) banner.style.display = 'none';
+  });
+</script>
+
+<style>
+  .cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--card-bg);
+    border-top: var(--border-2) solid var(--border);
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    z-index: 1000;
+    font-size: 0.85rem;
+  }
+  .cookie-banner p {
+    margin: 0;
+  }
+  .cookie-banner a {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+  .cookie-btn {
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border: var(--border-2) solid var(--btn-border);
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+  .cookie-btn:hover {
+    opacity: 0.8;
+  }
+</style>

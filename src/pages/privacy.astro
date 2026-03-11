@@ -1,0 +1,101 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+const pageTitle = "Privacy Policy";
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <div class="privacy">
+    <p><strong>Last updated:</strong> March 2026</p>
+
+    <h2>Who I am</h2>
+    <p>
+      This website is operated by Michele Vannucci. You can reach me at
+      <a href="mailto:michele.vannucci20@gmail.com">michele.vannucci20@gmail.com</a>.
+    </p>
+
+    <h2>What data is collected</h2>
+
+    <h3>Hosting (Cloudflare)</h3>
+    <p>
+      This site is hosted on <strong>Cloudflare Pages</strong>. Cloudflare automatically processes
+      certain technical data to serve pages and protect against abuse, including:
+    </p>
+    <ul>
+      <li>IP address</li>
+      <li>Browser type and version</li>
+      <li>Pages visited and time of access</li>
+      <li>Country of origin</li>
+    </ul>
+    <p>
+      This processing is necessary for the legitimate interest of delivering and securing the website.
+      See <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Cloudflare's Privacy Policy</a> for details.
+    </p>
+
+    <h3>Theme preference</h3>
+    <p>
+      Your light/dark theme preference is stored in your browser's <code>localStorage</code>.
+      This data never leaves your device and is not transmitted to any server.
+    </p>
+
+    <h3>Cal.com (Scheduling)</h3>
+    <p>
+      The <a href="/about">About</a> page includes an embedded scheduling widget from
+      <strong>Cal.com</strong>. When you interact with it, Cal.com may process your data
+      (name, email, calendar availability) to facilitate scheduling.
+      See <a href="https://cal.com/privacy" target="_blank" rel="noopener noreferrer">Cal.com's Privacy Policy</a>.
+    </p>
+
+    <h3>Spotify (Embedded content)</h3>
+    <p>
+      Some pages include embedded Spotify players. When these load, Spotify may set cookies
+      and collect data according to their
+      <a href="https://www.spotify.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+    </p>
+
+    <h2>Cookies</h2>
+    <p>
+      This site does not set any first-party cookies. Third-party services (Cloudflare, Cal.com, Spotify)
+      may set their own cookies. You can control cookies through your browser settings.
+    </p>
+
+    <h2>Analytics</h2>
+    <p>This site does not use any analytics or tracking tools.</p>
+
+    <h2>Your rights (GDPR)</h2>
+    <p>If you are in the EU/EEA, you have the right to:</p>
+    <ul>
+      <li>Access the personal data held about you</li>
+      <li>Request correction or deletion of your data</li>
+      <li>Object to or restrict processing</li>
+      <li>Data portability</li>
+      <li>Lodge a complaint with your local data protection authority</li>
+    </ul>
+    <p>
+      Since I do not collect personal data directly, most of these rights apply to the third-party
+      services listed above. For any questions, contact me at
+      <a href="mailto:michele.vannucci20@gmail.com">michele.vannucci20@gmail.com</a>.
+    </p>
+
+    <h2>AI training</h2>
+    <p>
+      Content on this site is licensed under
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a>.
+      Use of this content for AI/ML model training is not permitted without explicit written permission.
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .privacy {
+    max-width: 70ch;
+  }
+  .privacy h2 {
+    margin-top: 2rem;
+  }
+  .privacy h3 {
+    margin-top: 1.25rem;
+  }
+  .privacy ul {
+    padding-left: 1.5rem;
+  }
+</style>

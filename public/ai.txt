@@ -1,0 +1,10 @@
+# ai.txt - Preference for AI data usage
+# See https://site.spawning.ai/spawning-ai-txt
+
+# Disallow use of site content for AI/ML model training
+User-Agent: *
+Disallow: /
+
+# Content on this site is authored by Michele Vannucci.
+# It may NOT be used for training AI/ML models without explicit permission.
+# AI tools may access this site for search and retrieval purposes only.

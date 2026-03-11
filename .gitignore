@@ -163,4 +163,4 @@ pnpm-debug.log*
 .idea/
 
 #I don't want to publish assets yet
-public/
+#public/
