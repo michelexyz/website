@@ -2,6 +2,7 @@
 title: "Machine Learing For Graphs"
 description: "I developed a novel algorithm to perform non-linear (RNN-based) causal discovery between random variables (such as climate indices)"
 author: 'Michele Vannucci'
+tags: ['AI', 'Graphs','Causality']
 pubDate: 2025-01-29
 cover: ./causal_graphh.png
 download: /Michele_ML4Graphs.pdf

@@ -2,6 +2,7 @@
 title: "EL Reasoner"
 description: "I implemented a reasoner which uses EL description logic rules to compute the subsumers of a class inside a OWL ontology"
 author: 'Michele Vannucci'
+tags: ['AI', 'Logic']
 pubDate: 2023-12-04
 download: '/Michele_EL_Reasoner.pdf'
 ---

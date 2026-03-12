@@ -2,6 +2,7 @@
 title: "RL Assignments"
 description: "Three assignments completed for the Dynamic Programming and Reinforcement Learning course"
 author: 'Michele Vannucci'
+tags: ['AI', 'RL']
 pubDate: 2024-12-20'
 ---
 
