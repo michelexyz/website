@@ -1,6 +1,6 @@
 ---
 title: "Master's Thesis"
-description: "A theoretical paper on surprise-minimizing AIXI"
+description: "A theoretical paper on a surprise-minimizing AIXI agent"
 author: 'Michele Vannucci'
 pubDate: 2026-03-06
 tags: ['AI', 'AIXI', 'FEP']
