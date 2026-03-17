@@ -10,7 +10,7 @@ download: /Michele_Masters_Thesis.pdf
 
 
 For my Master's thesis, I studied an [**AIXI**](https://en.wikipedia.org/wiki/AIXI) agent under a surprise-minimization
-objective, which is prescribed by the **Free Energy Principle**. This is opposed to the [Knowledge Seeking Agent](https://link.springer.com/chapter/10.1007/978-3-642-40935-6_12) (KSA): an AIXI which maximizes surprise to gather knowledge about its environment. The problem of KSA is that it surely dies if possible, as [demonstrated by Cohen et al](https://ieeexplore.ieee.org/document/9431093).
+objective, which is prescribed by the **Free Energy Principle**. This is opposed to the [Knowledge Seeking Agent](https://link.springer.com/chapter/10.1007/978-3-642-40935-6_12) (KSA): an AIXI agent which maximizes surprise to gather knowledge about its environment. The problem of KSA is that it surely dies if possible, as [demonstrated by Cohen et al](https://ieeexplore.ieee.org/document/9431093).
 
 
 ## Universal Surprise-Minimizing Agents
