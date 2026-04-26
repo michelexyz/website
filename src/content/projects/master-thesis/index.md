@@ -17,10 +17,13 @@ objective, which is prescribed by the **Free Energy Principle**. This is opposed
 *Supervised by:*  [Peter Bloem](https://peterbloem.nl/)
 ## Abstract
 
-We define a Surprise-Minimizing Agent (SMA), within the framework of [Universal AI](https://hutter1.net/ai/uaibook2.htm), with the goal of surprise minimization on incoming observations.
-This objective is prescribed by the [Free Energy Principle](https://en.wikipedia.org/wiki/Free_energy_principle), which we reformulate for this setting.
-Having removed the problem of computational constraints, we investigate whether the sole goal of surprise minimization leads to interesting or trivial behavior. As we will see, this heavily depends on the Kolmogorov complexity of the environment and how easy it is to predict with the universal mixture.
-We show that the optimal behavior for the agent (AI$\mu$) is to enter a niche of the world that can be easily modeled, without altering the prior weight on simple environments significantly. Nonetheless, we prove bounds for the complexity of this niche and how it relates to the dimensionality of the action and observation spaces, horizon, and complexity of the true environment. This implies an exploratory behavior and information gain up to the complexity of the niche itself.
-We argue how, instead, the agnostic agent (AI$\xi$) might explore beyond the optimal niche. We demonstrate both asymptotic optimality and sub-linear regret of SMA. Finally, we motivate how this agent controls the probability of dying, as opposed to the [Knowledge-Seeking Agent](https://link.springer.com/chapter/10.1007/978-3-642-40935-6_12).
+We formally analyze a computationally unbounded agent whose goal is surprise minimization on incoming observations, within the framework of [Universal AI](https://hutter1.net/ai/uaibook2.html).
+This objective is described by the [free energy principle](https://en.wikipedia.org/wiki/Free_energy_principle), which we reformulate for this setting.
+Having removed the problem of computational constraints, we investigate whether the sole goal of surprise minimization leads to interesting or trivial behavior. As we will see, this heavily depends on the (Kolmogorov) complexity of the environment
+%and how easy it is to predict with the universal mixture
+.
+We show that the optimal behavior for the agent is to enter a niche of its world that can be easily modeled, without altering the prior weight on simple environments significantly. Nonetheless, we prove bounds for the complexity of this niche and how it relates to the dimensionality of the action and observation spaces, horizon, and complexity of the true environment. This bound entails a counter-intuitive short term exploratory behavior and information gain in pursuit of reaching the niche.
+Additionally, we argue how the agnostic agent, being intrinsically suboptimal, might explore beyond the optimal niche. We demonstrate both asymptotic optimality and sub-linear regret of our agent. Finally, we motivate how it controls the probability of dying, as opposed to the Knowledge-Seeking Agent (KSA), which, in contrast, maximizes surprise.
 
-**This project has not yet been completed. You can download a near-final draft below. Red text indicates TODOs.**
+
+**This is the final version of my Master's thesis. The pre-print is coming soon!**
