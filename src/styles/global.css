@@ -112,17 +112,17 @@ p a {
 /* dark mode styles */
 html.dark {
   /* override tokens */
-  --bg: #222434;
+  --bg: #303542;
   --text: #e5e7eb; /* slate-200 */
   --text-muted: #94a3b8; /* slate-400 */
   --border: #e5e7eb; /* slate-200 */
-  --card-bg: #0f172a; /* slate-900 */
-  --accent: #60a5fa; /* blue-400 */
+  --card-bg: #242e3e; 
+  --accent: #3b82f6; /* blue-400 */
   --accent-hover: #3b82f6; /* blue-500 */
-  --chip-bg: #1f2937; /* gray-800 */
+  --chip-bg: rgb(52, 59, 70); 
   --chip-bg-hover: #374151; /* gray-700 */
-  --chip-text: #cbd5e1; /* slate-300 */
-  --chip-text-hover: #e2e8f0; /* slate-200 */
+  --chip-text: #e5e7eb;
+  --chip-text-hover: #e2e8f0;
   /* nav tokens */
   --nav-hover-bg: #f87171; /* deep red for dark hover */
   --nav-active-text: #F53C3C; /* red-400 */
