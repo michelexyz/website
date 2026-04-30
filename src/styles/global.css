@@ -74,6 +74,7 @@ body {
   max-width: 90ch;
   padding: 1rem;
   line-height: 1.5;
+  font-size: var(--font-2);
   color: var(--text);
 }
 
@@ -116,7 +117,7 @@ html.dark {
   --text: #e5e7eb; /* slate-200 */
   --text-muted: #94a3b8; /* slate-400 */
   --border: #e5e7eb; /* slate-200 */
-  --card-bg: #242e3e; 
+  --card-bg: #2c3440; 
   --accent: #3b82f6; /* blue-400 */
   --accent-hover: #3b82f6; /* blue-500 */
   --chip-bg: rgb(52, 59, 70); 
