@@ -1,0 +1,147 @@
+---
+// Reusable lightbox overlay.
+// Triggers:
+//   - Gallery figures: `.album-stream figure.photo` (uses inner <img> + <figcaption>)
+//   - Standalone links: any element with `[data-lightbox]`, optional `data-img` (defaults to href) and `data-caption`
+---
+
+<div class="lightbox" data-open="false" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="lightbox-backdrop" data-close></div>
+  <div class="lightbox-content">
+    <button class="lightbox-close" aria-label="Close" data-close>×</button>
+    <img class="lightbox-img" alt="" />
+    <p class="lightbox-caption"></p>
+  </div>
+  <button class="lightbox-arrow prev" aria-label="Previous image" data-prev>‹</button>
+  <button class="lightbox-arrow next" aria-label="Next image" data-next>›</button>
+</div>
+
+<style>
+  .lightbox {
+    position: fixed; inset: 0; display: none; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.5);
+    padding: var(--space-4);
+    z-index: 1000;
+  }
+  .lightbox[data-open="true"] { display: flex; }
+  .lightbox-backdrop { position: absolute; inset: 0; }
+  .lightbox-content { position: relative; background: var(--card-bg); border: 2px solid var(--border); padding: var(--space-2); max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; }
+  .lightbox-img { max-width: 95vw; max-height: 80vh; object-fit: contain; background: var(--card-bg); border: 2px solid var(--border); }
+  .lightbox-caption { margin-top: var(--space-3); color: var(--text-muted); font-size: var(--font-2); }
+  .lightbox-caption:empty { display: none; }
+  .lightbox-close { position: absolute; top: var(--space-2); right: var(--space-2); background: var(--bg); color: var(--text); border: 2px solid var(--border); border-radius: 0; padding: 0.25rem 0.5rem; cursor: pointer; }
+  .lightbox-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: var(--bg); color: var(--text); border: 2px solid var(--border); border-radius: 0; padding: var(--space-3); cursor: pointer; z-index: 1001; }
+  .lightbox-arrow.prev { left: var(--space-2); }
+  .lightbox-arrow.next { right: var(--space-2); }
+</style>
+
+<script is:inline>
+  (function () {
+    const overlay = document.querySelector('.lightbox');
+    if (!overlay) return;
+    const overlayImg = overlay.querySelector('.lightbox-img');
+    const overlayCaption = overlay.querySelector('.lightbox-caption');
+    const prevBtn = overlay.querySelector('[data-prev]');
+    const nextBtn = overlay.querySelector('[data-next]');
+    const galleryFigures = Array.from(document.querySelectorAll('.album-stream figure.photo'));
+
+    let items = [];
+    let currentIndex = -1;
+
+    function figureItem(fig) {
+      const img = fig.querySelector('img');
+      const cap = fig.querySelector('figcaption');
+      return {
+        src: img?.getAttribute('src') || '',
+        srcset: img?.getAttribute('srcset') || '',
+        sizes: img?.getAttribute('sizes') || '',
+        caption: cap?.textContent || '',
+      };
+    }
+
+    function linkItem(el) {
+      return {
+        src: el.getAttribute('data-img') || el.getAttribute('href') || '',
+        srcset: '',
+        sizes: '',
+        caption: el.getAttribute('data-caption') || '',
+      };
+    }
+
+    function show(idx) {
+      const max = items.length - 1;
+      if (idx < 0) idx = 0; else if (idx > max) idx = max;
+      const item = items[idx];
+      if (!item) return;
+      overlayImg.setAttribute('src', item.src);
+      if (item.srcset) overlayImg.setAttribute('srcset', item.srcset); else overlayImg.removeAttribute('srcset');
+      if (item.sizes) overlayImg.setAttribute('sizes', item.sizes); else overlayImg.removeAttribute('sizes');
+      overlayImg.setAttribute('alt', item.caption);
+      overlayCaption.textContent = item.caption;
+      currentIndex = idx;
+      const multi = items.length > 1;
+      if (prevBtn) prevBtn.style.display = multi ? '' : 'none';
+      if (nextBtn) nextBtn.style.display = multi ? '' : 'none';
+    }
+
+    function open(newItems, idx) {
+      items = newItems;
+      show(idx);
+      overlay.setAttribute('data-open', 'true');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.addEventListener('keydown', onKeyDown);
+      try {
+        if (overlay.requestFullscreen) overlay.requestFullscreen();
+        else if (overlay.webkitRequestFullscreen) overlay.webkitRequestFullscreen();
+      } catch (err) {
+        console.debug('[Lightbox] fullscreen request failed or unsupported', err);
+      }
+    }
+
+    function close() {
+      overlay.setAttribute('data-open', 'false');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.removeEventListener('keydown', onKeyDown);
+      try {
+        if (document.fullscreenElement) {
+          if (document.exitFullscreen) document.exitFullscreen();
+          else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        }
+      } catch (err) {
+        console.debug('[Lightbox] fullscreen exit failed or unsupported', err);
+      }
+    }
+
+    function onKeyDown(e) {
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowRight') show(currentIndex + 1);
+      if (e.key === 'ArrowLeft') show(currentIndex - 1);
+    }
+
+    document.addEventListener('click', (e) => {
+      const target = e.target;
+      if (!target || typeof target.closest !== 'function') return;
+
+      const fig = target.closest('.album-stream figure.photo');
+      if (fig) {
+        const idx = galleryFigures.indexOf(fig);
+        if (idx !== -1) open(galleryFigures.map(figureItem), idx);
+        return;
+      }
+
+      const link = target.closest('[data-lightbox]');
+      if (link) {
+        e.preventDefault();
+        open([linkItem(link)], 0);
+        return;
+      }
+
+      if (target.matches?.('[data-close], .lightbox')) {
+        close();
+      }
+    });
+
+    if (nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); show(currentIndex + 1); });
+    if (prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); show(currentIndex - 1); });
+  })();
+</script>

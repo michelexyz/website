@@ -6,6 +6,7 @@ import Tags from '../components/Tags.astro';
 import { getCollection, render } from 'astro:content';
 import PrevNext from '../components/navigation/PrevNext.astro';
 import DownloadButton from '../components/DownloadButton.astro';
+import Lightbox from '../components/Lightbox.astro';
 
 interface Props {
   collection: string;
@@ -125,5 +126,6 @@ const breadcrumb = passedBreadcrumb ?? (() => {
   )}
   
   <PrevNext prev={prev} next={next} parentPage={parentPage} base={`/${collection}`} />
-  
+
+  <Lightbox />
 </BaseLayout>

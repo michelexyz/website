@@ -12,6 +12,8 @@ objective, which is prescribed by the **Free Energy Principle**. This is opposed
 
 *Supervised by:*  [Peter Bloem](https://peterbloem.nl/)
 
+*Presented at:* Google <a href="/me_at_deepmind.jpg" data-lightbox data-caption="Me at Google DeepMind">DeepMind</a>, the [UAIASI Hub](https://uaiasi.com/2025/11/30/michele-vannucci-on-surprise-minimizing-aixi/) and Friston's [Theoretical Neurobiology group](https://youtu.be/tnxgpYJnjhA).
+
 ## Abstract
 We formally analyze a computationally unbounded agent whose goal is surprise minimization on incoming observations, within the framework of [Universal AI](https://hutter1.net/ai/uaibook2.html).
 This objective is described by the [free energy principle](https://en.wikipedia.org/wiki/Free_energy_principle), which we reformulate for this setting.
