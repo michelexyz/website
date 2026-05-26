@@ -4,8 +4,9 @@ import GridView from "../../components/feed/GridView.astro";
 
 
 const pageTitle = "Other stuff";
+const description = "Other things I share: curated links, music I've made, and a small image gallery.";
 ---
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout pageTitle={pageTitle} description={description}>
   <p>Explore other things I like to share.</p>
   <GridView
     heading="Collections"

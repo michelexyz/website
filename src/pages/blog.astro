@@ -6,6 +6,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import BlogFeed from "../components/feed/BlogFeed.astro";
 
 const pageTitle = "My Astro Learning Blog";
+const description = "Blog posts by Michele Vannucci on AI research, machine learning, and side projects.";
 const allPosts = (await getCollection("blog")).sort((a, b) => {
   const da = (a.data as any).pubDate?.getTime?.() || 0;
   const db = (b.data as any).pubDate?.getTime?.() || 0;
@@ -27,7 +28,7 @@ const allPosts = (await getCollection("blog")).sort((a, b) => {
 </style>
 
 <html lang="en">
-  <BaseLayout pageTitle={"Michele's Blog"}>
+  <BaseLayout pageTitle={"Michele's Blog"} description={description}>
     <div class="blog-intro">
       <p class="description">Words words words</p>
       <p class="rss-link">

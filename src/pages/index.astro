@@ -50,6 +50,9 @@ const shuffle = <T,>(items: T[]) => {
 
 const marqueeItems = shuffle(uniqueCandidates).slice(0, Math.min(uniqueCandidates.length, 14));
 const headerIntro = { name: 'Michele Vannucci' };
+
+const description = "Recently graduated from my Master's in AI with a thesis on surprise-minimizing agents. Currently writing its pre-print and looking for a research position.";
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
 ---
 
 <html lang="en">
@@ -57,6 +60,16 @@ const headerIntro = { name: 'Michele Vannucci' };
     <meta charset="utf-8" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noai, noimageai" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Michele Vannucci" />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Michele Vannucci" />
+    <meta name="twitter:description" content={description} />
     <title>Michele Vannucci</title>
   </head>
   <body>

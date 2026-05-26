@@ -4,6 +4,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Sections from "../../components/feed/Sections.astro";
 
 const pageTitle = "My Projects";
+const description = "Selected projects by Michele Vannucci, including a Master's thesis on surprise-minimizing agents and research on bilateral symmetry in evolvable robots.";
 const allProjects = await getCollection("projects");
 const topLevel = allProjects
   .filter(p => !p.slug.includes('/'))
@@ -12,7 +13,7 @@ const topLevel = allProjects
 <style></style>
 
 <html lang="en">
-  <BaseLayout pageTitle={pageTitle}>
+  <BaseLayout pageTitle={pageTitle} description={description}>
     <p>Here are some of the projects I've worked on.</p>
     <Sections
       items={topLevel.map((project) => ({

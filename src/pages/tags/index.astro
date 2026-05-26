@@ -9,8 +9,9 @@ const blogTags = allPosts.flatMap((p: any) => p.data.tags ?? []);
 const projectTags = allProjects.flatMap((p: any) => p.data.tags ?? []);
 const tags = [...new Set([...blogTags, ...projectTags])];
 const pageTitle = "Tag Index";
+const description = "Browse posts and projects by topic — an index of every tag used on michelevannucci.me.";
 ---
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout pageTitle={pageTitle} description={description}>
   <div class="tags">
     {tags.map((tag) => (
       <Tag tag={tag} size="lg" />

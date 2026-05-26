@@ -84,7 +84,7 @@ const breadcrumb = passedBreadcrumb ?? (() => {
   .download-wrap { display: block; margin-bottom: var(--space-5); }
 </style>
 
-<BaseLayout pageTitle={title}>
+<BaseLayout pageTitle={title} description={(mainEntry as any)?.data?.description}>
   {breadcrumb.length > 1 && (
     <nav class="breadcrumb" aria-label="Breadcrumb">
       {breadcrumb.map((b, i) => (
