@@ -6,6 +6,8 @@ interface Props {
   url: string;
   Icon?: any; // optional SVG component
   class?: string; // allow extra classes from parent
+  target?: string;
+  rel?: string;
 }
 
 const { platform, url, Icon, class: className, ...rest } = Astro.props as Props & Record<string, any>;

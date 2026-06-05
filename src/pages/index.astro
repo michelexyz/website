@@ -79,14 +79,14 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toStri
       <section class="contact-card" aria-labelledby="contacts-title">
         <h2 id="contacts-title">Contacts</h2>
         <div class="contact-row top">
-          <Social platform="michele.vannucci20@gmail.com" url="mailto:michele.vannucci20@gmail.com" Icon={Mail} />
+          <Social platform="michele.vannucci20@gmail.com" url="mailto:michele.vannucci20@gmail.com" Icon={Mail} target="_blank" rel="noopener noreferrer" />
           <CalScheduleButton text="Schedule a call" link="michele-vannucci-ijafga/30min" ns="30min" />
         </div>
 
         <div class="contact-row socials" aria-label="Social profiles">
-          <Social platform="Github" url="https://github.com/michelexyz" Icon={Github} />
-          <Social platform="Linkedin" url="https://www.linkedin.com/in/michele-vannucci" Icon={Linkedin} />
-          <Social platform="Orcid" url="https://orcid.org/0009-0008-1838-0562" Icon={Orcid} />
+          <Social platform="Github" url="https://github.com/michelexyz" Icon={Github} target="_blank" rel="noopener noreferrer" />
+          <Social platform="Linkedin" url="https://www.linkedin.com/in/michele-vannucci" Icon={Linkedin} target="_blank" rel="noopener noreferrer" />
+          <Social platform="Orcid" url="https://orcid.org/0009-0008-1838-0562" Icon={Orcid} target="_blank" rel="noopener noreferrer" />
         </div>
       </section>
     </main>
@@ -134,7 +134,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toStri
   .contact-row {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: var(--space-5);
     flex-wrap: wrap;
   }
