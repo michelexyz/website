@@ -76,6 +76,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toStri
     <Header intro={headerIntro} />
 
     <main>
+      {/* Contact card temporarily hidden
       <section class="contact-card" aria-labelledby="contacts-title">
         <h2 id="contacts-title">Contacts</h2>
         <div class="contact-row top">
@@ -89,6 +90,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toStri
           <Social platform="Orcid" url="https://orcid.org/0009-0008-1838-0562" Icon={Orcid} target="_blank" rel="noopener noreferrer" />
         </div>
       </section>
+      */}
     </main>
     {marqueeItems.length > 0 && (
       <footer class="home-marquee">
@@ -114,7 +116,6 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toStri
   }
 
   .contact-card {
-    display: flex;
     flex-direction: column;
     gap: var(--space-4);
     width: 70%;
