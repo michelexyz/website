@@ -11,16 +11,20 @@ import '../styles/global.css';
 import { getCollection } from 'astro:content';
 
 // Build the same intro marquee links used in BaseLayout's Header
-const [blogEntries, projectEntries, linkEntries] = await Promise.all([
+const [blogEntries, projectEntries, linkEntries, musicEntries, albumEntries] = await Promise.all([
   getCollection('blog'),
   getCollection('projects'),
-  getCollection('links')
+  getCollection('links'),
+  getCollection('music'),
+  getCollection('albums')
 ]);
 
 const contentLinks = [
   ...blogEntries.map((entry) => ({ label: entry.data.title, url: `/blog/${entry.id}/` })),
   ...projectEntries.map((entry) => ({ label: entry.data.title, url: `/projects/${entry.slug}/` })),
-  ...linkEntries.map((entry) => ({ label: entry.data.title, url: `/links/${entry.slug}/` }))
+  ...linkEntries.map((entry) => ({ label: entry.data.title, url: `/others/links/${entry.slug}/` })),
+  ...musicEntries.map((entry) => ({ label: entry.data.title, url: `/others/music/${entry.id}/` })),
+  ...albumEntries.map((entry) => ({ label: entry.data.title, url: `/others/gallery/${entry.id}/` }))
 ];
 
 const navFallback = [
