@@ -84,7 +84,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toStri
       <section class="contact-card" aria-labelledby="contacts-title">
         <h2 id="contacts-title">Contacts</h2>
         <div class="contact-row top">
-          <Social platform="michele.vannucci20@gmail.com" url="mailto:michele.vannucci20@gmail.com" Icon={Mail} target="_blank" rel="noopener noreferrer" />
+          <Social platform="michele.vannucci20@gmail.com" url="mailto:michele.vannucci20@gmail.com" Icon={Mail} target="_blank" rel="noopener noreferrer" draggable={false} />
           <CalScheduleButton text="Schedule a call" link="michele-vannucci-ijafga/30min" ns="30min" />
         </div>
 

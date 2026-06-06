@@ -3,6 +3,7 @@ import Social from './Social.astro';
 import Github from '../../icons/github.svg';
 import Linkedin from '../../icons/linkedin.svg';
 import Mail from '../../icons/mail.svg';
+import Download from '../../icons/download.svg';
 
 ---
 <style>
@@ -24,9 +25,10 @@ import Mail from '../../icons/mail.svg';
 </style>
 
 <footer>
-  <Social platform="github" url="https://github.com/michelexyz" Icon={Github} />
-  <Social platform="linkedin" url="https://www.linkedin.com/in/michele-vannucci" Icon={Linkedin} />
-  <Social platform='michele.vannucci20@gmail.com' url='mailto:michele.vannucci@gmail.com' Icon={Mail} />
+  <Social platform="github" url="https://github.com/michelexyz" Icon={Github} target="_blank" rel="noopener noreferrer" />
+  <Social platform="linkedin" url="https://www.linkedin.com/in/michele-vannucci" Icon={Linkedin} target="_blank" rel="noopener noreferrer" />
+  <Social platform='michele.vannucci20@gmail.com' url='mailto:michele.vannucci20@gmail.com' Icon={Mail} target="_blank" rel="noopener noreferrer" draggable={false} />
+  <Social platform="CV" url="/CV_Michele_Vannucci.pdf" Icon={Download} target="_blank" rel="noopener noreferrer" download="CV_Michele_Vannucci.pdf" />
   <p class="copyright">
     &copy; {new Date().getFullYear()} Michele Vannucci.
     Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a>.

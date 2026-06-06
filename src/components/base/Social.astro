@@ -8,13 +8,15 @@ interface Props {
   class?: string; // allow extra classes from parent
   target?: string;
   rel?: string;
+  download?: string | boolean;
+  draggable?: boolean;
 }
 
-const { platform, url, Icon, class: className, ...rest } = Astro.props as Props & Record<string, any>;
+const { platform, url, Icon, class: className, draggable = true, ...rest } = Astro.props as Props & Record<string, any>;
 // Preserve explicit protocols (http/https/mailto/tel) and absolute/relative paths; otherwise prefix with https://
 const href = /^(https?:|mailto:|tel:|\/)/.test(url) ? url : `https://${url}`;
 ---
-<a class={`btn social${className ? ' ' + className : ''}`} href={href} {...rest}>
+<a class={`btn social${draggable ? '' : ' social--selectable'}${className ? ' ' + className : ''}`} href={href} draggable={draggable ? 'true' : 'false'} {...rest}>
   {Icon ? (<Icon class="icon" aria-hidden="true"/>) : null}
   <span class="label">{platform}</span>
 </a>
@@ -25,5 +27,10 @@ const href = /^(https?:|mailto:|tel:|\/)/.test(url) ? url : `https://${url}`;
   .label {
     font-size: var(--font-2);
     font-weight: 500;
-  } 
+  }
+  .social--selectable .label {
+    user-select: text;
+    -webkit-user-select: text;
+    cursor: text;
+  }
 </style>
