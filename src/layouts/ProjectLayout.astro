@@ -96,6 +96,11 @@ const breadcrumb = passedBreadcrumb ?? (() => {
     </nav>
   )}
   {mainEntry && <Tags tags={(mainEntry as any).data?.tags} />}
+  {(mainEntry as any)?.data?.presentation && (
+    <div class="download-wrap">
+      <DownloadButton href={(mainEntry as any).data.presentation} text="Presentation" />
+    </div>
+  )}
   {Content && (
     <section class="lead">
       <Content />

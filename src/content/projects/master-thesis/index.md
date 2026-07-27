@@ -6,6 +6,7 @@ pubDate: 2026-03-06
 tags: ['AI', 'AIXI', 'FEP']
 cover: ./cover.png
 download: /Michele_Masters_Thesis.pdf
+presentation: /Symposium.pdf
 ---
 For my **Master's thesis**, I studied an [**AIXI**](https://en.wikipedia.org/wiki/AIXI) agent under a surprise-minimization
 objective, which is prescribed by the **Free Energy Principle**. This is opposed to the [Knowledge Seeking Agent](https://link.springer.com/chapter/10.1007/978-3-642-40935-6_12) (KSA): an AIXI agent which maximizes surprise to gather knowledge about its environment.
