@@ -24,4 +24,4 @@ We show that the optimal behavior for the agent is to enter a niche of its world
 Additionally, we argue how the agnostic agent, being intrinsically suboptimal, might explore beyond the optimal niche. We demonstrate both asymptotic optimality and sub-linear regret of our agent. Finally, we motivate how it controls the probability of dying, as opposed to the Knowledge-Seeking Agent (KSA), which, in contrast, maximizes surprise.
 
 
-**This is the final version of my Master's thesis. The pre-print is coming soon!**
+**This is the final version of my Master's thesis. The publication, co-authored with Peter Bloem and [Emile Van Krieken](https://emilevankrieken.com/), is coming soon!**
